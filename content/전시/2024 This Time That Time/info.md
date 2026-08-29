@@ -11,3 +11,4 @@ Text: Malgeum Kim
 Photo: Ian Yang
 출품작: 001, 002
 ---
+[[물감의 시간은 어둠을 지나곤]]
