@@ -63,7 +63,9 @@ main {
     top: 1.1rem;
     left: 1.25rem;
     z-index: 70;
+    transition: transform 0.25s ease, opacity 0.25s ease;
   }
+  .menu-toggle.nav-hidden { transform: translateY(-4rem); opacity: 0; }
   .menu-toggle span { display: block; height: 2px; background: var(--ink); }
 
   .nav-backdrop.show {
