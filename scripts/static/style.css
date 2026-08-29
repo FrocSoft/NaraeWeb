@@ -116,7 +116,7 @@ h1 small { font-weight: 400; color: var(--muted); font-size: 1rem; }
 .meta { color: var(--muted); font-size: 0.92rem; margin-top: 0; }
 
 .credits { list-style: none; margin: 0.6rem 0 0; padding: 0; font-size: 0.88rem; color: var(--muted); }
-.credit-label::after { content: ": "; }
+.credit-label::after { content: " ｜ "; }
 
 .ex-block + .ex-block { margin-top: 1.5rem; }
 .ex-title-en { font-style: italic; margin: 0 0 0.2rem; }
