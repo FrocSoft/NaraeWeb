@@ -17,7 +17,9 @@ body {
   padding-left: var(--sidebar-w);
 }
 
-a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+a { color: inherit; text-decoration: none; }
+/* 옵시디언 [[위키링크]]로 만들어진 링크만 밑줄 표시 (그 외 링크는 밑줄 없음) */
+.wikilink { text-decoration: underline; text-underline-offset: 2px; }
 
 :root { --sidebar-w: 260px; }
 
@@ -162,8 +164,9 @@ h1 small { font-weight: 400; color: var(--muted); font-size: 1rem; }
 .list.list-plain .li-meta { display: block; margin-left: 0; margin-top: 0.2rem; }
 .thumb { width: 64px; height: 64px; object-fit: cover; background: var(--line); flex: none; }
 
-.hero-gallery { display: grid; gap: 0.5rem; margin: 1.5rem 0; }
+.hero-gallery { display: grid; gap: 0.5rem; margin: 1.5rem 0 0.5rem; }
 .hero-img { width: 100%; display: block; cursor: zoom-in; }
+.hero-caption { margin: 0 0 1.5rem; font-size: 0.8em; color: var(--muted); text-align: left; }
 
 .artwork-grid {
   display: grid;
@@ -184,7 +187,7 @@ h1 small { font-weight: 400; color: var(--muted); font-size: 1rem; }
   color: var(--muted); font-style: italic;
 }
 .prose h2, .prose h3 { margin-top: 2rem; }
-.prose a:hover { color: var(--muted); }
+.prose .wikilink:hover { color: var(--muted); }
 
 .lightbox {
   position: fixed; inset: 0; background: rgba(10,10,10,0.94);
