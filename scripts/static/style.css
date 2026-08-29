@@ -43,33 +43,50 @@ main {
   padding: 2.5rem 2.5rem 6rem;
 }
 
+.mobile-topbar { display: none; }
 .menu-toggle { display: none; }
 .nav-backdrop { display: none; }
 
 /* 좁은 화면(폰)에서는 왼쪽 사이드바 대신, 왼쪽에서 밀고 들어와 화면을 덮는 서랍 메뉴로 */
 @media (max-width: 768px) {
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 3.4rem;
+    padding: 0 1.1rem;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+    z-index: 70;
+    transition: transform 0.25s ease;
+  }
+  .mobile-topbar.nav-hidden { transform: translateY(-100%); }
+
   .menu-toggle {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 5px;
-    width: 42px;
-    height: 42px;
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
     padding: 0;
     cursor: pointer;
-    position: fixed;
-    top: 0.9rem;
-    left: 0.9rem;
-    z-index: 70;
-    transition: transform 0.25s ease, opacity 0.25s ease;
+    position: relative;
   }
-  .menu-toggle.nav-hidden { transform: translateY(-4rem); opacity: 0; }
-  .menu-toggle span { display: block; width: 20px; height: 2px; background: var(--ink); }
+  .menu-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--ink);
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+  .menu-toggle.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-toggle.is-open span:nth-child(2) { opacity: 0; }
+  .menu-toggle.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
   .nav-backdrop.show {
     display: block;

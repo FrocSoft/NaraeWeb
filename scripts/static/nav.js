@@ -2,11 +2,13 @@
   var toggle = document.getElementById('menu-toggle');
   var sidebar = document.getElementById('site-sidebar');
   var backdrop = document.getElementById('nav-backdrop');
-  if (!toggle || !sidebar || !backdrop) return;
+  var topbar = document.getElementById('mobile-topbar');
+  if (!toggle || !sidebar || !backdrop || !topbar) return;
 
   function setOpen(open) {
     sidebar.classList.toggle('nav-open', open);
     backdrop.classList.toggle('show', open);
+    toggle.classList.toggle('is-open', open);
     toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     toggle.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
     document.body.style.overflow = open ? 'hidden' : '';
@@ -17,7 +19,7 @@
   });
   backdrop.addEventListener('click', function () { setOpen(false); });
 
-  // 모바일에서 아래로 스크롤하면 햄버거 버튼을 숨기고, 위로 스크롤하면 다시 보이게.
+  // 모바일에서 아래로 스크롤하면 상단 바를 숨기고, 위로 스크롤하면 다시 보이게.
   var lastY = window.scrollY;
   var THRESHOLD = 10; // 자잘한 흔들림 무시
   window.addEventListener('scroll', function () {
@@ -28,9 +30,9 @@
     if (Math.abs(diff) < THRESHOLD) return;
 
     if (diff > 0 && y > 60) {
-      toggle.classList.add('nav-hidden');
+      topbar.classList.add('nav-hidden');
     } else {
-      toggle.classList.remove('nav-hidden');
+      topbar.classList.remove('nav-hidden');
     }
     lastY = y;
   }, { passive: true });

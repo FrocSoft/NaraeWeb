@@ -41,9 +41,11 @@ function layout({ title, active, content }) {
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="메뉴 열기">
-  <span></span><span></span><span></span>
-</button>
+<header class="mobile-topbar" id="mobile-topbar">
+  <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="메뉴 열기">
+    <span></span><span></span><span></span>
+  </button>
+</header>
 <div class="nav-backdrop" id="nav-backdrop"></div>
 <aside class="sidebar" id="site-sidebar">
   <nav id="site-nav">
