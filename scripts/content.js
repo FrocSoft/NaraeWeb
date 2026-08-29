@@ -144,10 +144,20 @@ function loadExhibitions(artworkByCode) {
         body = body.replace(enTitleMatch[0], '').trim();
       }
     }
-    // "라벨｜값" 형식의 크레딧 줄(참여작가｜.../포스터｜.../Artist｜... 등, 라벨은 무엇이든 됨)을
-    // 본문에서 찾아 뽑아낸다. ｜(전각 세로줄)든 그냥 자판의 |든 둘 다 인식 — 아내분이 특수문자를
-    // 반복해서 찾아 쓸 필요 없이 그냥 | 키를 쓰면 되게 하려는 것.
+    // 크레딧(참여작가/포스터/서문/사진/후원/디자인 등, 라벨은 무엇이든 됨)은 두 군데서 모은다.
+    // 1) 속성(제목/기간/장소/출품작이 아닌 나머지 속성은 전부 크레딧으로 취급) — 이게 기본 방식.
+    //    옵시디언 속성 패널에 라벨:값 칸으로 뜨니 특수문자를 하나도 안 써도 됨.
+    // 2) 혹시 본문에 "라벨｜값"(또는 그냥 라벨|값)처럼 자유롭게 써둔 줄이 있으면 그것도 찾아냄 —
+    //    예전 방식으로 쓴 글도 그대로 작동하게 하는 하위호환용.
+    const RESERVED_EX_KEYS = new Set([
+      '제목(국문)', '제목', '전시명', '이름', '제목(영문)',
+      '기간(국문)', '기간', '기간(영문)', '시작일', '장소', '출품작',
+    ]);
     const credits = [];
+    for (const [key, value] of Object.entries(meta)) {
+      if (RESERVED_EX_KEYS.has(key) || !value) continue;
+      credits.push({ label: key, value });
+    }
     const creditLineRe = /^[ \t]*([^｜|:：\n]{1,20})[｜|][ \t]*(.+?)[ \t]*$/gm;
     body = body.replace(creditLineRe, (whole, label, value) => {
       credits.push({ label: label.trim(), value: value.trim() });

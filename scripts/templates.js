@@ -19,6 +19,11 @@ function esc(s) {
   }[c]));
 }
 
+// 아내분은 그냥 제목만 입력하면 되고, 겹낫표/화살괄호는 화면에 낼 때 여기서만 붙인다.
+// 《 》 = 전시(책/앨범급 제목), 「 」 = 텍스트/블로그(글 한 편 제목). 둘 다 국문 관례.
+function wrapBook(t) { return t ? `《${t}》` : ''; }
+function wrapEssay(t) { return t ? `「${t}」` : ''; }
+
 // 빌드가 시작할 때 전시 목록을 한 번 넣어두면, 모든 페이지의 사이드바가 그걸 그대로 씀.
 let NAV_EXHIBITIONS = [];
 function setNavExhibitions(exhibitions) {
@@ -45,7 +50,7 @@ function layout({ title, active, content }) {
     <a href="/" class="nav-home" ${isActive('/') ? 'aria-current="page"' : ''}>Home</a>
     <hr>
     <div class="nav-exhibitions">
-      ${NAV_EXHIBITIONS.map((ex) => `<a href="/전시/${ex.slug}/" ${isActive(`/전시/${ex.slug}/`) ? 'aria-current="page"' : ''}>${esc(ex.title)}</a>`).join('\n      ')}
+      ${NAV_EXHIBITIONS.map((ex) => `<a href="/전시/${ex.slug}/" ${isActive(`/전시/${ex.slug}/`) ? 'aria-current="page"' : ''}>${esc(wrapBook(ex.title))}</a>`).join('\n      ')}
     </div>
     <hr>
     <a href="/works/" ${isActive('/works/') ? 'aria-current="page"' : ''}>Works</a>
@@ -121,11 +126,11 @@ ${artworks.length ? `<div class="artwork-grid">
 
 function exhibitionDetailPage(ex) {
   return layout({
-    title: ex.title,
+    title: wrapBook(ex.title),
     active: `/전시/${ex.slug}/`,
     content: `
 <article class="exhibition">
-  <h1>${esc(ex.title)}${ex.titleEn ? ` <small>${esc(ex.titleEn)}</small>` : ''}</h1>
+  <h1>${esc(wrapBook(ex.title))}${ex.titleEn ? ` <small><em>${esc(ex.titleEn)}</em></small>` : ''}</h1>
   ${ex.period || ex.place ? `<p class="meta">${[ex.period, ex.place].filter(Boolean).map(esc).join(' · ')}</p>` : ''}
   ${ex.credits.length ? `<ul class="credits">
     ${ex.credits.map((c) => `<li><span class="credit-label">${esc(c.label)}</span><span class="credit-value">${esc(c.value)}</span></li>`).join('\n    ')}
@@ -150,7 +155,7 @@ function textListPage(texts) {
 <h1>Text</h1>
 ${texts.length ? `<ul class="list list-plain">
   ${texts.map((t) => `<li><a href="/텍스트/${t.slug}/">
-    <span class="li-title">${esc(t.title)}</span>
+    <span class="li-title">${esc(wrapEssay(t.title))}</span>
     <span class="li-meta">${esc(t.author)} ${t.date ? '· ' + esc(t.date) : ''}</span>
   </a></li>`).join('\n  ')}
 </ul>` : `<p class="empty">아직 글이 없습니다.</p>`}`,
@@ -159,11 +164,11 @@ ${texts.length ? `<ul class="list list-plain">
 
 function textDetailPage(t) {
   return layout({
-    title: t.title,
+    title: wrapEssay(t.title),
     active: '/텍스트/',
     content: `
 <article class="prose-page">
-  <h1>${esc(t.title)}</h1>
+  <h1>${esc(wrapEssay(t.title))}</h1>
   <p class="meta">${esc(t.author)} ${t.date ? '· ' + esc(t.date) : ''}</p>
   <div class="prose">${md(t.body)}</div>
 </article>`,
@@ -178,7 +183,7 @@ function blogListPage(posts) {
 <h1>Blog</h1>
 ${posts.length ? `<ul class="list list-plain">
   ${posts.map((p) => `<li><a href="/블로그/${p.slug}/">
-    <span class="li-title">${esc(p.title)}</span>
+    <span class="li-title">${esc(wrapEssay(p.title))}</span>
     <span class="li-meta">${esc(p.date)}</span>
   </a></li>`).join('\n  ')}
 </ul>` : `<p class="empty">아직 게시물이 없습니다.</p>`}`,
@@ -187,11 +192,11 @@ ${posts.length ? `<ul class="list list-plain">
 
 function blogDetailPage(p) {
   return layout({
-    title: p.title,
+    title: wrapEssay(p.title),
     active: '/블로그/',
     content: `
 <article class="prose-page">
-  <h1>${esc(p.title)}</h1>
+  <h1>${esc(wrapEssay(p.title))}</h1>
   <p class="meta">${esc(p.date)}</p>
   <div class="prose">${md(p.body)}</div>
 </article>`,
