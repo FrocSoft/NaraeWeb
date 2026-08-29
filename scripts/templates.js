@@ -157,8 +157,7 @@ function exhibitionDetailPage(ex) {
     ${ex.heroImages.map((img, i) => `<img src="/${urlPath(img.rel)}" alt="" loading="lazy" class="hero-img" data-hero-index="${i}">`).join('\n    ')}
   </div>` : ''}
   <div class="prose">${md(ex.body)}</div>
-  ${ex.artworks.length ? `<h2>출품작</h2>
-  <div class="artwork-grid">
+  ${ex.artworks.length ? `<div class="artwork-grid">
     ${ex.artworks.map((a) => artworkFigure(a)).join('\n    ')}
   </div>` : ''}
 </article>`,
