@@ -1,6 +1,9 @@
 const { marked } = require('marked');
 const { demoteHeadings, thumbRelPath } = require('./lib');
 
+// 빈 줄 없이 줄바꿈만 해도 그대로 줄바꿈되게. (마크다운 기본 규칙은 한 문단으로 붙여버림)
+marked.setOptions({ breaks: true });
+
 function md(source) {
   return source ? marked.parse(demoteHeadings(source)) : '';
 }
@@ -118,7 +121,7 @@ function exhibitionDetailPage(ex) {
     content: `
 <article class="exhibition">
   <h1>${esc(ex.title)}${ex.titleEn ? ` <small>${esc(ex.titleEn)}</small>` : ''}</h1>
-  <p class="meta">${esc(ex.period)} · ${esc(ex.place)}</p>
+  ${ex.period || ex.place ? `<p class="meta">${[ex.period, ex.place].filter(Boolean).map(esc).join(' · ')}</p>` : ''}
   ${ex.heroImages.length ? `<div class="hero-gallery">
     ${ex.heroImages.map((img, i) => `<img src="/${urlPath(img.rel)}" alt="" loading="lazy" class="hero-img" data-hero-index="${i}">`).join('\n    ')}
   </div>` : ''}

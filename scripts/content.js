@@ -90,6 +90,11 @@ function loadArtworks() {
 }
 
 // ---------- 전시 ----------
+//
+// 두 가지 작성 방식을 다 받아준다.
+// 1) 양식대로 "제목: / 기간: / 장소: / 출품작:" 헤더를 쓴 경우 -> parseMeta가 그대로 처리.
+// 2) 라벨 없이 자유롭게 쓴 경우(예: 《국문 제목》, *English Title*, 출품작: 이 본문 아무 데나) ->
+//    본문 전체에서 그 패턴들을 찾아 뽑아내고, 뽑아낸 줄은 화면에 중복으로 안 보이게 본문에서 지움.
 function loadExhibitions(artworkByCode) {
   const dir = path.join(CONTENT_DIR, '전시');
   return listDirs(dir).map((folderName) => {
@@ -102,7 +107,16 @@ function loadExhibitions(artworkByCode) {
       warn(`전시/${folderName} 폴더에 설명 md 파일이 없습니다.`);
     }
 
-    const codes = String(pick(meta, ['출품작'], ''))
+    // 출품작: 헤더에 없으면 본문 아무 줄에서나 찾는다.
+    let artworkField = meta['출품작'];
+    if (artworkField === undefined) {
+      const m = body.match(/^[ \t]*출품작\s*[:：]\s*(.+)$/m);
+      if (m) {
+        artworkField = m[1];
+        body = body.replace(m[0], '').trim();
+      }
+    }
+    const codes = String(artworkField || '')
       .split(/[,\s]+/)
       .map((s) => parseInt(s, 10))
       .filter((n) => !Number.isNaN(n));
@@ -114,13 +128,31 @@ function loadExhibitions(artworkByCode) {
       else warn(`전시/${folderName}: 출품작 ${code}번을 작품 목록에서 찾을 수 없습니다.`);
     }
 
+    // 《제목》 형식의 국문 제목 줄이 본문에 단독으로 있으면 제목으로 쓴다 (본문에서는 뺌).
+    let titleFromBody;
+    const koTitleMatch = body.match(/^[ \t]*《([^》]+)》[ \t]*$/m);
+    if (koTitleMatch) {
+      titleFromBody = koTitleMatch[1].trim();
+      body = body.replace(koTitleMatch[0], '').trim();
+    }
+    // 국문 제목을 찾았을 때만, 그 짝인 *영문 제목* 단독 줄도 찾는다 (오탐 방지).
+    let titleEnFromBody;
+    if (titleFromBody) {
+      const enTitleMatch = body.match(/^[ \t]*\*([^*\n]+)\*[ \t]*$/m);
+      if (enTitleMatch) {
+        titleEnFromBody = enTitleMatch[1].trim();
+        body = body.replace(enTitleMatch[0], '').trim();
+      }
+    }
+    body = body.replace(/\n{3,}/g, '\n\n').trim();
+
     // md 파일을 제외한 이미지들 = 전경/설치 이미지
     const heroImages = findImagesRecursive(folder).map((abs) => ({
       abs,
       rel: `전시/${folderName}/${path.relative(folder, abs).replace(/\\/g, '/')}`,
     }));
 
-    const title = pick(meta, ['제목', '전시명', '이름'], folderName);
+    const title = pick(meta, ['제목', '전시명', '이름'], titleFromBody || folderName);
     const period = pick(meta, ['기간'], '');
     const start = pick(meta, ['시작일'], '');
 
@@ -128,7 +160,7 @@ function loadExhibitions(artworkByCode) {
       slug: slugify(folderName),
       folderName,
       title,
-      titleEn: pick(meta, ['제목(영문)'], ''),
+      titleEn: pick(meta, ['제목(영문)'], titleEnFromBody || ''),
       period,
       place: pick(meta, ['장소'], ''),
       sortYear: extractYear(start || period || folderName),
