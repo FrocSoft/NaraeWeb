@@ -1,14 +1,13 @@
-《멀고도 가까운》
-2021.07.04 - 07.10
-서울특별시 중구 충무로 4가 150, 303호
-포스터｜주슬아
-사진｜양이언
-
-*Faraway, So Close*
-Jul 4, 2021 - Jul 10
-303, 150, Chungmuro 4(sa)-ga, Jung-gu, Seoul
-Poster｜Sla Joo
-Photo｜Ian Yang
-
-
+---
+제목(국문): 멀고도 가까운
+제목(영문): Faraway, So Close
+기간(국문): 2021.07.04 - 07.10
+기간(영문): Jul 4, 2021 - Jul 10
+장소(국문): 서울특별시 중구 충무로 4가 150, 303호
+장소(영문): 303, 150, Chungmuro 4(sa)-ga, Jung-gu, Seoul
+포스터: 주슬아
+사진: 양이언
+Poster: Sla Joo
+Photo: Ian Yang
 출품작: 001, 002
+---

@@ -124,17 +124,33 @@ ${artworks.length ? `<div class="artwork-grid">
   });
 }
 
+// 크레딧 목록 하나를 렌더링. (참여작가: 금나래, 진수영 형태)
+function creditList(credits) {
+  if (!credits.length) return '';
+  return `<ul class="credits">
+    ${credits.map((c) => `<li><span class="credit-label">${esc(c.label)}</span><span class="credit-value">${esc(c.value)}</span></li>`).join('\n    ')}
+  </ul>`;
+}
+
 function exhibitionDetailPage(ex) {
+  const koLines = [ex.periodKo, ex.placeKo].filter(Boolean);
+  const enLines = [ex.periodEn, ex.placeEn].filter(Boolean);
+  const hasEnBlock = ex.titleEn || enLines.length || ex.creditsEn.length;
   return layout({
     title: wrapBook(ex.title),
     active: `/전시/${ex.slug}/`,
     content: `
 <article class="exhibition">
-  <h1>${esc(wrapBook(ex.title))}${ex.titleEn ? ` <small><em>${esc(ex.titleEn)}</em></small>` : ''}</h1>
-  ${ex.period || ex.place ? `<p class="meta">${[ex.period, ex.place].filter(Boolean).map(esc).join(' · ')}</p>` : ''}
-  ${ex.credits.length ? `<ul class="credits">
-    ${ex.credits.map((c) => `<li><span class="credit-label">${esc(c.label)}</span><span class="credit-value">${esc(c.value)}</span></li>`).join('\n    ')}
-  </ul>` : ''}
+  <div class="ex-block">
+    <h1>${esc(wrapBook(ex.title))}</h1>
+    ${koLines.length ? `<p class="meta">${koLines.map(esc).join('<br>')}</p>` : ''}
+    ${creditList(ex.creditsKo)}
+  </div>
+  ${hasEnBlock ? `<div class="ex-block ex-block-en">
+    ${ex.titleEn ? `<p class="ex-title-en"><em>${esc(ex.titleEn)}</em></p>` : ''}
+    ${enLines.length ? `<p class="meta">${enLines.map(esc).join('<br>')}</p>` : ''}
+    ${creditList(ex.creditsEn)}
+  </div>` : ''}
   ${ex.heroImages.length ? `<div class="hero-gallery">
     ${ex.heroImages.map((img, i) => `<img src="/${urlPath(img.rel)}" alt="" loading="lazy" class="hero-img" data-hero-index="${i}">`).join('\n    ')}
   </div>` : ''}

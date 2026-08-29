@@ -149,18 +149,27 @@ function loadExhibitions(artworkByCode) {
     //    옵시디언 속성 패널에 라벨:값 칸으로 뜨니 특수문자를 하나도 안 써도 됨.
     // 2) 혹시 본문에 "라벨｜값"(또는 그냥 라벨|값)처럼 자유롭게 써둔 줄이 있으면 그것도 찾아냄 —
     //    예전 방식으로 쓴 글도 그대로 작동하게 하는 하위호환용.
+    // 국문/영문 구분은 라벨 자체로 판단한다 (한글이 있으면 국문 블록, 없으면 영문 블록) —
+    // 아내분이 실제로 국문 블록엔 국문 라벨(참여작가/포스터...), 영문 블록엔 영문 라벨(Artist/Poster...)을
+    // 쓰기 때문에 이 판단만으로 두 블록이 정확히 갈린다.
     const RESERVED_EX_KEYS = new Set([
       '제목(국문)', '제목', '전시명', '이름', '제목(영문)',
-      '기간(국문)', '기간', '기간(영문)', '시작일', '장소', '출품작',
+      '기간(국문)', '기간', '기간(영문)', '시작일',
+      '장소(국문)', '장소', '장소(영문)', '출품작',
     ]);
-    const credits = [];
+    const hasHangul = (s) => /[가-힣]/.test(s);
+    const creditsKo = [];
+    const creditsEn = [];
+    function addCredit(label, value) {
+      (hasHangul(label) ? creditsKo : creditsEn).push({ label, value });
+    }
     for (const [key, value] of Object.entries(meta)) {
       if (RESERVED_EX_KEYS.has(key) || !value) continue;
-      credits.push({ label: key, value });
+      addCredit(key, value);
     }
     const creditLineRe = /^[ \t]*([^｜|:：\n]{1,20})[｜|][ \t]*(.+?)[ \t]*$/gm;
     body = body.replace(creditLineRe, (whole, label, value) => {
-      credits.push({ label: label.trim(), value: value.trim() });
+      addCredit(label.trim(), value.trim());
       return '';
     });
     body = body.replace(/\n{3,}/g, '\n\n').trim();
@@ -172,7 +181,7 @@ function loadExhibitions(artworkByCode) {
     }));
 
     const title = pick(meta, ['제목(국문)', '제목', '전시명', '이름'], titleFromBody || folderName);
-    const period = pick(meta, ['기간(국문)', '기간'], '');
+    const periodKo = pick(meta, ['기간(국문)', '기간'], '');
     const start = pick(meta, ['시작일'], '');
 
     return {
@@ -180,12 +189,15 @@ function loadExhibitions(artworkByCode) {
       folderName,
       title,
       titleEn: pick(meta, ['제목(영문)'], titleEnFromBody || ''),
-      period,
-      place: pick(meta, ['장소'], ''),
-      sortYear: extractYear(start || period || folderName),
+      periodKo,
+      periodEn: pick(meta, ['기간(영문)'], ''),
+      placeKo: pick(meta, ['장소(국문)', '장소'], ''),
+      placeEn: pick(meta, ['장소(영문)'], ''),
+      sortYear: extractYear(start || periodKo || folderName),
       heroImages,
       artworks,
-      credits,
+      creditsKo,
+      creditsEn,
       body,
     };
   }).sort((a, b) => b.sortYear - a.sortYear);

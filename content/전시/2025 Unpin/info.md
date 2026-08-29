@@ -1,16 +1,15 @@
-《Unpin》
-2021.07.04 - 07.10
-서울특별시 중구 충무로 4가 150, 303호
-참여작가｜금나래, 진수영
-서문｜손하늘
-포스터｜이시아
-후원｜비케이씨앤씨
-
-Unpin
-Jul 4, 2021 - Jul 10
-303, 150, Chungmuro 4(sa)-ga, Jung-gu, Seoul
-Poster｜Sla Joo
-Photo｜Ian Yang
-
-
+---
+제목(국문): Unpin
+제목(영문): Unpin
+기간(국문): 2021.07.04 - 07.10
+기간(영문): Jul 4, 2021 - Jul 10
+장소(국문): 서울특별시 중구 충무로 4가 150, 303호
+장소(영문): 303, 150, Chungmuro 4(sa)-ga, Jung-gu, Seoul
+참여작가: 금나래, 진수영
+서문: 손하늘
+포스터: 이시아
+후원: 비케이씨앤씨
+Poster: Sla Joo
+Photo: Ian Yang
 출품작: 001, 002
+---
