@@ -139,7 +139,7 @@ function findPhotoCredit(ex) {
 function heroCaptionHtml(ex, photoCredit) {
   const lines = [`${esc(wrapBook(ex.title))}, 전시전경${ex.sortYear ? `, ${ex.sortYear}` : ''}`];
   if (ex.titleEn) lines.push(`<em>${esc(ex.titleEn)}</em>, installation view${ex.sortYear ? `, ${ex.sortYear}` : ''}`);
-  if (photoCredit) lines.push(`photo ${esc(photoCredit)}`);
+  if (photoCredit) lines.push(`Photo: ${esc(photoCredit)}`);
   return lines.join('<br>');
 }
 
