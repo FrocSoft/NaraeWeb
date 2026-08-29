@@ -144,6 +144,15 @@ function loadExhibitions(artworkByCode) {
         body = body.replace(enTitleMatch[0], '').trim();
       }
     }
+    // "라벨｜값" 형식의 크레딧 줄(참여작가｜.../포스터｜.../Artist｜... 등, 라벨은 무엇이든 됨)을
+    // 본문에서 찾아 뽑아낸다. ｜(전각 세로줄)든 그냥 자판의 |든 둘 다 인식 — 아내분이 특수문자를
+    // 반복해서 찾아 쓸 필요 없이 그냥 | 키를 쓰면 되게 하려는 것.
+    const credits = [];
+    const creditLineRe = /^[ \t]*([^｜|:：\n]{1,20})[｜|][ \t]*(.+?)[ \t]*$/gm;
+    body = body.replace(creditLineRe, (whole, label, value) => {
+      credits.push({ label: label.trim(), value: value.trim() });
+      return '';
+    });
     body = body.replace(/\n{3,}/g, '\n\n').trim();
 
     // md 파일을 제외한 이미지들 = 전경/설치 이미지
@@ -166,6 +175,7 @@ function loadExhibitions(artworkByCode) {
       sortYear: extractYear(start || period || folderName),
       heroImages,
       artworks,
+      credits,
       body,
     };
   }).sort((a, b) => b.sortYear - a.sortYear);

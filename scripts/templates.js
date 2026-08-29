@@ -127,6 +127,9 @@ function exhibitionDetailPage(ex) {
 <article class="exhibition">
   <h1>${esc(ex.title)}${ex.titleEn ? ` <small>${esc(ex.titleEn)}</small>` : ''}</h1>
   ${ex.period || ex.place ? `<p class="meta">${[ex.period, ex.place].filter(Boolean).map(esc).join(' · ')}</p>` : ''}
+  ${ex.credits.length ? `<ul class="credits">
+    ${ex.credits.map((c) => `<li><span class="credit-label">${esc(c.label)}</span><span class="credit-value">${esc(c.value)}</span></li>`).join('\n    ')}
+  </ul>` : ''}
   ${ex.heroImages.length ? `<div class="hero-gallery">
     ${ex.heroImages.map((img, i) => `<img src="/${urlPath(img.rel)}" alt="" loading="lazy" class="hero-img" data-hero-index="${i}">`).join('\n    ')}
   </div>` : ''}
