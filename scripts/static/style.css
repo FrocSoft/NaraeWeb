@@ -43,6 +43,31 @@ main {
   padding: 2.5rem 2.5rem 6rem;
 }
 
+/* 좁은 화면(폰)에서는 왼쪽 사이드바 대신 위쪽에 가로로 눕힌 메뉴로 */
+@media (max-width: 768px) {
+  .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+    overflow-y: visible;
+    padding: 1.25rem 1.25rem 0.75rem;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+  .sidebar nav {
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+    gap: 1.1rem;
+    padding-bottom: 0.25rem;
+    white-space: nowrap;
+  }
+  .sidebar nav hr { display: none; }
+  .nav-exhibitions { flex-direction: row; gap: 1.1rem; }
+  main { margin-left: 0; padding: 1.5rem 1.25rem 4rem; }
+  .index-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+}
+
 .hero { padding: 3rem 0; }
 .hero h1 { font-size: 2rem; margin: 0; }
 
