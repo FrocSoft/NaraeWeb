@@ -51,22 +51,25 @@ main {
   .menu-toggle {
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
     gap: 5px;
-    width: 26px;
-    height: 20px;
-    background: none;
-    border: none;
+    width: 42px;
+    height: 42px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     padding: 0;
     cursor: pointer;
     position: fixed;
-    top: 1.1rem;
-    left: 1.25rem;
+    top: 0.9rem;
+    left: 0.9rem;
     z-index: 70;
     transition: transform 0.25s ease, opacity 0.25s ease;
   }
   .menu-toggle.nav-hidden { transform: translateY(-4rem); opacity: 0; }
-  .menu-toggle span { display: block; height: 2px; background: var(--ink); }
+  .menu-toggle span { display: block; width: 20px; height: 2px; background: var(--ink); }
 
   .nav-backdrop.show {
     display: block;
@@ -121,7 +124,8 @@ h1 small { font-weight: 400; color: var(--muted); font-size: 1rem; }
 .credit-label::after { content: " ｜ "; }
 
 .ex-block + .ex-block { margin-top: 1.5rem; }
-.ex-title-en { font-style: italic; margin: 0 0 0.2rem; }
+.ex-block h1 { font-size: 1.15rem; font-weight: 600; }
+.ex-title-en { font-style: italic; margin: 0 0 0.2rem; font-size: 1.15rem; font-weight: 600; }
 .empty { color: var(--muted); }
 
 .list { list-style: none; margin: 2rem 0 0; padding: 0; }
