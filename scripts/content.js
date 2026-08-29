@@ -152,8 +152,8 @@ function loadExhibitions(artworkByCode) {
       rel: `전시/${folderName}/${path.relative(folder, abs).replace(/\\/g, '/')}`,
     }));
 
-    const title = pick(meta, ['제목', '전시명', '이름'], titleFromBody || folderName);
-    const period = pick(meta, ['기간'], '');
+    const title = pick(meta, ['제목(국문)', '제목', '전시명', '이름'], titleFromBody || folderName);
+    const period = pick(meta, ['기간(국문)', '기간'], '');
     const start = pick(meta, ['시작일'], '');
 
     return {
