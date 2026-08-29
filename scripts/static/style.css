@@ -177,6 +177,8 @@ h1 small { font-weight: 400; color: var(--muted); font-size: 1rem; }
   color: var(--muted); font-style: italic;
 }
 .prose h2, .prose h3 { margin-top: 2rem; }
+.prose a { text-decoration: underline; text-underline-offset: 2px; }
+.prose a:hover { color: var(--muted); }
 
 .lightbox {
   position: fixed; inset: 0; background: rgba(10,10,10,0.94);

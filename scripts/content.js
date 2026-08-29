@@ -21,6 +21,49 @@ function warn(msg) {
   console.warn('  ⚠ ' + msg);
 }
 
+// ---------- 옵시디언 [[위키링크]] -> 사이트 내부 링크 ----------
+//
+// 옵시디언에서 쓰던 [[문서명]] / [[문서명|표시 텍스트]] 문법을 그대로 살려서,
+// 사이트 안의 전시/텍스트/블로그/CV 페이지로 연결되는 일반 마크다운 링크로 바꿔준다.
+// 대상을 못 찾으면 링크 없이 텍스트만 남기고 경고를 띄운다 (빌드는 안 죽음).
+const WIKILINK_RE = /\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|([^\]]+))?\]\]/g;
+
+function normalizeWikiKey(s) {
+  return String(s).trim().replace(/\s+/g, ' ').toLowerCase();
+}
+
+function buildWikiLinkResolver({ exhibitions, texts, blogPosts, cv }) {
+  const map = new Map();
+  function register(key, url) {
+    if (!key) return;
+    const norm = normalizeWikiKey(key);
+    if (!map.has(norm)) map.set(norm, url);
+  }
+  for (const ex of exhibitions) {
+    const url = `/전시/${ex.slug}/`;
+    register(ex.title, url);
+    register(ex.titleEn, url);
+    register(ex.folderName, url);
+  }
+  for (const t of texts) register(t.title, `/텍스트/${t.slug}/`);
+  for (const p of blogPosts) register(p.title, `/블로그/${p.slug}/`);
+  if (cv) register('CV', '/cv/');
+  return map;
+}
+
+function applyWikiLinks(text, resolver) {
+  if (!text) return text;
+  return text.replace(WIKILINK_RE, (whole, target, label) => {
+    const display = (label || target).trim();
+    const url = resolver.get(normalizeWikiKey(target));
+    if (!url) {
+      warn(`위키링크 대상을 찾을 수 없습니다: [[${target.trim()}]]`);
+      return display;
+    }
+    return `[${display}](${url})`;
+  });
+}
+
 // ---------- 작품 (엑셀 표 + 번호 폴더 이미지) ----------
 function loadArtworks() {
   const dir = path.join(CONTENT_DIR, '작품');
@@ -248,13 +291,18 @@ function loadCV() {
 
 function loadAll() {
   const artworkByCode = loadArtworks();
-  return {
-    artworkByCode,
-    exhibitions: loadExhibitions(artworkByCode),
-    texts: loadTexts(),
-    blogPosts: loadBlogPosts(),
-    cv: loadCV(),
-  };
+  const exhibitions = loadExhibitions(artworkByCode);
+  const texts = loadTexts();
+  const blogPosts = loadBlogPosts();
+  const cv = loadCV();
+
+  const wikiResolver = buildWikiLinkResolver({ exhibitions, texts, blogPosts, cv });
+  for (const ex of exhibitions) ex.body = applyWikiLinks(ex.body, wikiResolver);
+  for (const t of texts) t.body = applyWikiLinks(t.body, wikiResolver);
+  for (const p of blogPosts) p.body = applyWikiLinks(p.body, wikiResolver);
+  if (cv) cv.body = applyWikiLinks(cv.body, wikiResolver);
+
+  return { artworkByCode, exhibitions, texts, blogPosts, cv };
 }
 
 module.exports = { loadAll };
