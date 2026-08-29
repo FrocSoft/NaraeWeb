@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "marked": "^4.3.0",
+    "sharp": "^0.32.6",
     "xlsx": "^0.18.5"
   }
 }

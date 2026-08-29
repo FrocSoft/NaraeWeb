@@ -128,6 +128,11 @@ function slugify(name) {
   return name.trim().replace(/\s+/g, '-');
 }
 
+// "작품/001/Test1.jpg" -> "작품/001/Test1.thumb.jpg" (그리드용 작은 버전 파일 경로)
+function thumbRelPath(rel) {
+  return rel.replace(/(\.[^./\\]+)$/, '.thumb$1');
+}
+
 module.exports = {
   listDirs,
   listFiles,
@@ -138,5 +143,6 @@ module.exports = {
   pick,
   extractYear,
   slugify,
+  thumbRelPath,
   isHidden,
 };

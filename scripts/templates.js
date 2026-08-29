@@ -1,5 +1,5 @@
 const { marked } = require('marked');
-const { demoteHeadings } = require('./lib');
+const { demoteHeadings, thumbRelPath } = require('./lib');
 
 function md(source) {
   return source ? marked.parse(demoteHeadings(source)) : '';
@@ -69,7 +69,12 @@ function artworkFigure(art) {
   if (!art.images.length) return '';
   const data = `data-title="${esc(art.title)}" data-title-en="${esc(art.titleEn)}" data-year="${esc(art.year)}" data-material="${esc(art.material)}" data-material-en="${esc(art.materialEn)}" data-size="${esc(art.size)}"`;
   return `<figure class="artwork" data-artwork="${art.code}">
-  ${art.images.map((img, i) => `<img src="/${urlPath(img.rel)}" alt="${esc(art.title)}" loading="lazy" class="art-img" data-code="${art.code}" data-index="${i}" ${data} ${i > 0 ? 'hidden' : ''}>`).join('\n  ')}
+  ${art.images.map((img, i) => {
+    // 그리드에 보이는 대표 사진(0번)만 작은 썸네일을 쓰고, 원본은 라이트박스용으로 data-full에 실어둠.
+    const gridSrc = i === 0 ? urlPath(thumbRelPath(img.rel)) : urlPath(img.rel);
+    const fullAttr = i === 0 ? ` data-full="/${urlPath(img.rel)}"` : '';
+    return `<img src="/${gridSrc}" alt="${esc(art.title)}" loading="lazy" class="art-img" data-code="${art.code}" data-index="${i}" ${data}${fullAttr} ${i > 0 ? 'hidden' : ''}>`;
+  }).join('\n  ')}
   <figcaption>
     <span class="cap-title">${esc(art.title)}</span>
     ${art.titleEn ? `<span class="cap-title-en">${esc(art.titleEn)}</span>` : ''}

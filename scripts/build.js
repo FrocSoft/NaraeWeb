@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const { loadAll } = require('./content');
+const { thumbRelPath } = require('./lib');
+const { fullImage, thumbImage } = require('./images');
 const T = require('./templates');
 
 const ROOT = path.join(__dirname, '..');
@@ -27,14 +29,20 @@ function copyStatic() {
   }
 }
 
-function copyImage(rel) {
+// 원본을 그대로 복사하는 대신, 웹에 맞게 줄이고 압축한 버전을 내보냄.
+function queueFull(rel, tasks) {
   const src = path.join(ROOT, 'content', rel);
   const dest = path.join(DIST, rel);
-  ensureDir(path.dirname(dest));
-  fs.copyFileSync(src, dest);
+  tasks.push(fullImage(src, dest));
 }
 
-function build() {
+function queueThumb(rel, tasks) {
+  const src = path.join(ROOT, 'content', rel);
+  const dest = path.join(DIST, thumbRelPath(rel));
+  tasks.push(thumbImage(src, dest));
+}
+
+async function build() {
   console.log('빌드 시작…');
   rmrf(DIST);
   ensureDir(DIST);
@@ -45,13 +53,20 @@ function build() {
 
   writePage('/', T.homePage({ texts, blogPosts }));
 
+  const imageTasks = [];
+
   const artworks = [...artworkByCode.values()].sort((a, b) => (parseInt(b.year, 10) || 0) - (parseInt(a.year, 10) || 0));
   writePage('/works/', T.worksPage(artworks));
-  for (const art of artworks) for (const img of art.images) copyImage(img.rel);
+  for (const art of artworks) {
+    art.images.forEach((img, i) => {
+      queueFull(img.rel, imageTasks);
+      if (i === 0) queueThumb(img.rel, imageTasks); // 목록에서 보이는 대표 사진만 썸네일도 필요
+    });
+  }
 
   for (const ex of exhibitions) {
     writePage(`/전시/${ex.slug}/`, T.exhibitionDetailPage(ex));
-    for (const img of ex.heroImages) copyImage(img.rel);
+    for (const img of ex.heroImages) queueFull(img.rel, imageTasks);
   }
 
   writePage('/텍스트/', T.textListPage(texts));
@@ -62,8 +77,14 @@ function build() {
 
   writePage('/cv/', T.cvPage(cv));
 
+  console.log(`이미지 ${imageTasks.length}개 처리 중…`);
+  await Promise.all(imageTasks);
+
   console.log(`빌드 완료 → ${path.relative(ROOT, DIST)}/`);
   console.log(`  전시 ${exhibitions.length} · 텍스트 ${texts.length} · 블로그 ${blogPosts.length}`);
 }
 
-build();
+build().catch((err) => {
+  console.error('빌드 실패:', err);
+  process.exit(1);
+});

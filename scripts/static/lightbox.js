@@ -33,7 +33,7 @@
   function show(i) {
     index = (i + list.length) % list.length;
     var img = list[index];
-    imgEl.src = img.src;
+    imgEl.src = img.dataset.full || img.src;
     imgEl.alt = img.alt || '';
     capEl.innerHTML = captionFor(img);
   }
