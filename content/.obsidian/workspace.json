@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "CV.md",
+                "file": "전시/2024 This Time That Time/info.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "CV"
+              "title": "info"
             }
           }
         ]
@@ -99,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "CV.md",
+                "file": "전시/2024 This Time That Time/info.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "CV.md",
+                "file": "전시/2024 This Time That Time/info.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "CV.md",
+                "file": "전시/2024 This Time That Time/info.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -190,6 +190,8 @@
   },
   "active": "ee3a44472ecc3974",
   "lastOpenFiles": [
+    "전시/2021 Faraway, So Close/info.md",
+    "CV.md",
     "텍스트/물감의 시간은 어둠을 지나곤.md",
     "텍스트/CV.md",
     "텍스트/고정된 세계를 넘어서.md",
@@ -199,7 +201,6 @@
     "전시/2025 Unpin/info.md",
     "전시/2024 This Time That Time/info.md",
     "전시/2023 4 Needles/info.md",
-    "전시/2021 Faraway, So Close/info.md",
     "전시/2025 Unpin/전경",
     "전시/2024 This Time That Time/전경",
     "전시/2023 4 Needles/전경",
@@ -210,7 +211,6 @@
     "전시/2023 4 Needles",
     "전시/2025 Unpin",
     "전시/2024 This Time That Time",
-    "CV.md",
     "전시/2021 Faraway, SO Close/info.md",
     "전시/Test Exhibition/info.md",
     "작품/001/Test2.jpg",
