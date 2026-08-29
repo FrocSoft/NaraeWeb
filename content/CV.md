@@ -1,7 +1,7 @@
 ---
-이름:
-이름(영문):
-이메일:
+이름: 금나래 (b.1992)
+이름(영문): Narae Keum
+이메일: lettertonarae@gmail.com
 ---
 
 # 학력
