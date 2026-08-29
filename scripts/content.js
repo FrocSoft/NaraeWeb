@@ -10,6 +10,7 @@ const {
   findMainMdFile,
   findImagesRecursive,
   parseMeta,
+  esc,
   pick,
   extractYear,
   slugify,
@@ -53,7 +54,11 @@ function buildWikiLinkResolver({ exhibitions, texts, blogPosts, cv }) {
   return map;
 }
 
-// 라벨 없이 [[텍스트 글 제목]]만 쓴 경우엔 목록 페이지와 같은 방식(「제목」 + 필자)으로 보여준다.
+// 위키링크만 밑줄이 붙게 표시할 거라, 마크다운 링크 문법이 아니라 직접
+// <a class="wikilink"> 태그를 만들어 낀다 (일반 마크다운 링크와 구분되는 표식).
+//
+// 라벨 없이 [[텍스트 글 제목]]만 쓴 경우엔 목록 페이지와 같은 방식(「제목」, 필자)으로 보여주고,
+// 필자까지 링크 안에 포함해서 밑줄이 같이 붙게 한다.
 // [[대상|표시 텍스트]]처럼 직접 라벨을 붙였으면 그건 그대로 존중하고 자동 서식은 건너뜀.
 function applyWikiLinks(text, resolver) {
   if (!text) return text;
@@ -61,14 +66,15 @@ function applyWikiLinks(text, resolver) {
     const entry = resolver.get(normalizeWikiKey(target));
     if (!entry) {
       warn(`위키링크 대상을 찾을 수 없습니다: [[${target.trim()}]]`);
-      return (label || target).trim();
+      return esc((label || target).trim());
     }
-    if (label) return `[${label.trim()}](${entry.url})`;
+    const href = esc(entry.url);
+    if (label) return `<a class="wikilink" href="${href}">${esc(label.trim())}</a>`;
     if (entry.type === 'text') {
-      const authorSuffix = entry.author ? ` ${entry.author}` : '';
-      return `[「${entry.title}」](${entry.url})${authorSuffix}`;
+      const inner = `「${esc(entry.title)}」${entry.author ? `, ${esc(entry.author)}` : ''}`;
+      return `<a class="wikilink" href="${href}">${inner}</a>`;
     }
-    return `[${target.trim()}](${entry.url})`;
+    return `<a class="wikilink" href="${href}">${esc(target.trim())}</a>`;
   });
 }
 

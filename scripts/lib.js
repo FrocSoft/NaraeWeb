@@ -111,6 +111,12 @@ function demoteHeadings(markdown) {
   return markdown.replace(/^(#{1,5})(\s)/gm, '#$1$2');
 }
 
+function esc(s) {
+  return String(s || '').replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  }[c]));
+}
+
 function pick(meta, keys, fallback) {
   for (const k of keys) {
     if (meta[k] !== undefined && meta[k] !== '') return meta[k];
@@ -140,6 +146,7 @@ module.exports = {
   findImagesRecursive,
   parseMeta,
   demoteHeadings,
+  esc,
   pick,
   extractYear,
   slugify,
