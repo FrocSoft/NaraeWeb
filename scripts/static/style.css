@@ -43,27 +43,40 @@ main {
   padding: 2.5rem 2.5rem 6rem;
 }
 
-/* 좁은 화면(폰)에서는 왼쪽 사이드바 대신 위쪽에 가로로 눕힌 메뉴로 */
+.menu-toggle { display: none; }
+
+/* 좁은 화면(폰)에서는 왼쪽 사이드바 대신 햄버거 버튼으로 여닫는 메뉴로 */
 @media (max-width: 768px) {
   .sidebar {
     position: static;
     width: 100%;
     height: auto;
     overflow-y: visible;
-    padding: 1.25rem 1.25rem 0.75rem;
+    padding: 0.9rem 1.25rem;
     border-right: none;
     border-bottom: 1px solid var(--line);
   }
-  .sidebar nav {
-    flex-direction: row;
-    align-items: center;
-    overflow-x: auto;
-    gap: 1.1rem;
-    padding-bottom: 0.25rem;
-    white-space: nowrap;
+  .menu-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 26px;
+    height: 20px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
   }
-  .sidebar nav hr { display: none; }
-  .nav-exhibitions { flex-direction: row; gap: 1.1rem; }
+  .menu-toggle span { display: block; height: 2px; background: var(--ink); }
+  #site-nav {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 1rem;
+  }
+  .sidebar.nav-open #site-nav { display: flex; }
+  .nav-exhibitions { flex-direction: column; }
   main { margin-left: 0; padding: 1.5rem 1.25rem 4rem; }
   .index-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 }

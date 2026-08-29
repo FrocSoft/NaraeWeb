@@ -37,7 +37,10 @@ function layout({ title, active, content }) {
 </head>
 <body>
 <aside class="sidebar">
-  <nav>
+  <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="메뉴 열기">
+    <span></span><span></span><span></span>
+  </button>
+  <nav id="site-nav">
     <a href="/" class="nav-home" ${isActive('/') ? 'aria-current="page"' : ''}>Home</a>
     <hr>
     <div class="nav-exhibitions">
@@ -60,6 +63,7 @@ ${content}
   <div class="lb-caption"></div>
   <button class="lb-next" aria-label="다음">›</button>
 </div>
+<script src="/nav.js"></script>
 <script src="/lightbox.js"></script>
 </body>
 </html>`;
