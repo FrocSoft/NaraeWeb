@@ -36,10 +36,11 @@ function layout({ title, active, content }) {
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<aside class="sidebar">
-  <button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="메뉴 열기">
-    <span></span><span></span><span></span>
-  </button>
+<button class="menu-toggle" id="menu-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="메뉴 열기">
+  <span></span><span></span><span></span>
+</button>
+<div class="nav-backdrop" id="nav-backdrop"></div>
+<aside class="sidebar" id="site-sidebar">
   <nav id="site-nav">
     <a href="/" class="nav-home" ${isActive('/') ? 'aria-current="page"' : ''}>Home</a>
     <hr>
