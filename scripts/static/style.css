@@ -43,28 +43,56 @@ main {
   padding: 2.5rem 2.5rem 6rem;
 }
 
-/* 좁은 화면(폰)에서는 왼쪽 사이드바 대신 위쪽에 가로로 눕힌 메뉴로 */
+.menu-toggle { display: none; }
+.nav-backdrop { display: none; }
+
+/* 좁은 화면(폰)에서는 왼쪽 사이드바 대신, 왼쪽에서 밀고 들어와 화면을 덮는 서랍 메뉴로 */
 @media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 26px;
+    height: 20px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    position: fixed;
+    top: 1.1rem;
+    left: 1.25rem;
+    z-index: 70;
+  }
+  .menu-toggle span { display: block; height: 2px; background: var(--ink); }
+
+  .nav-backdrop.show {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 50;
+  }
+
   .sidebar {
-    position: static;
-    width: 100%;
-    height: auto;
-    overflow-y: visible;
-    padding: 1.25rem 1.25rem 0.75rem;
-    border-right: none;
-    border-bottom: 1px solid var(--line);
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    width: 80vw;
+    max-width: 300px;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 4.5rem 1.5rem 2rem;
+    border-right: 1px solid var(--line);
+    background: var(--bg);
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+    z-index: 60;
   }
-  .sidebar nav {
-    flex-direction: row;
-    align-items: center;
-    overflow-x: auto;
-    gap: 1.1rem;
-    padding-bottom: 0.25rem;
-    white-space: nowrap;
-  }
-  .sidebar nav hr { display: none; }
-  .nav-exhibitions { flex-direction: row; gap: 1.1rem; }
-  main { margin-left: 0; padding: 1.5rem 1.25rem 4rem; }
+  .sidebar.nav-open { transform: translateX(0); }
+
+  #site-nav { display: flex; flex-direction: column; align-items: flex-start; }
+  .nav-exhibitions { flex-direction: column; }
+  main { margin-left: 0; padding: 4.5rem 1.25rem 4rem; }
   .index-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
 }
 
