@@ -34,33 +34,41 @@ function normalizeWikiKey(s) {
 
 function buildWikiLinkResolver({ exhibitions, texts, blogPosts, cv }) {
   const map = new Map();
-  function register(key, url) {
+  function register(key, entry) {
     if (!key) return;
     const norm = normalizeWikiKey(key);
-    if (!map.has(norm)) map.set(norm, url);
+    if (!map.has(norm)) map.set(norm, entry);
   }
   for (const ex of exhibitions) {
-    const url = `/전시/${ex.slug}/`;
-    register(ex.title, url);
-    register(ex.titleEn, url);
-    register(ex.folderName, url);
+    const entry = { url: `/전시/${ex.slug}/`, type: 'exhibition' };
+    register(ex.title, entry);
+    register(ex.titleEn, entry);
+    register(ex.folderName, entry);
   }
-  for (const t of texts) register(t.title, `/텍스트/${t.slug}/`);
-  for (const p of blogPosts) register(p.title, `/블로그/${p.slug}/`);
-  if (cv) register('CV', '/cv/');
+  for (const t of texts) {
+    register(t.title, { url: `/텍스트/${t.slug}/`, type: 'text', title: t.title, author: t.author });
+  }
+  for (const p of blogPosts) register(p.title, { url: `/블로그/${p.slug}/`, type: 'blog' });
+  if (cv) register('CV', { url: '/cv/', type: 'cv' });
   return map;
 }
 
+// 라벨 없이 [[텍스트 글 제목]]만 쓴 경우엔 목록 페이지와 같은 방식(「제목」 + 필자)으로 보여준다.
+// [[대상|표시 텍스트]]처럼 직접 라벨을 붙였으면 그건 그대로 존중하고 자동 서식은 건너뜀.
 function applyWikiLinks(text, resolver) {
   if (!text) return text;
   return text.replace(WIKILINK_RE, (whole, target, label) => {
-    const display = (label || target).trim();
-    const url = resolver.get(normalizeWikiKey(target));
-    if (!url) {
+    const entry = resolver.get(normalizeWikiKey(target));
+    if (!entry) {
       warn(`위키링크 대상을 찾을 수 없습니다: [[${target.trim()}]]`);
-      return display;
+      return (label || target).trim();
     }
-    return `[${display}](${url})`;
+    if (label) return `[${label.trim()}](${entry.url})`;
+    if (entry.type === 'text') {
+      const authorSuffix = entry.author ? ` ${entry.author}` : '';
+      return `[「${entry.title}」](${entry.url})${authorSuffix}`;
+    }
+    return `[${target.trim()}](${entry.url})`;
   });
 }
 
