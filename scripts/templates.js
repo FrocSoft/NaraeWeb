@@ -100,9 +100,9 @@ function worksPage(artworks) {
     active: '/works/',
     content: `
 <h1>Works</h1>
-<div class="artwork-grid">
+${artworks.length ? `<div class="artwork-grid">
   ${artworks.map((a) => artworkFigure(a)).join('\n  ')}
-</div>`,
+</div>` : `<p class="empty">아직 작품이 없습니다.</p>`}`,
   });
 }
 
@@ -132,12 +132,12 @@ function textListPage(texts) {
     active: '/텍스트/',
     content: `
 <h1>Text</h1>
-<ul class="list list-plain">
+${texts.length ? `<ul class="list list-plain">
   ${texts.map((t) => `<li><a href="/텍스트/${t.slug}/">
     <span class="li-title">${esc(t.title)}</span>
     <span class="li-meta">${esc(t.author)} ${t.date ? '· ' + esc(t.date) : ''}</span>
   </a></li>`).join('\n  ')}
-</ul>`,
+</ul>` : `<p class="empty">아직 글이 없습니다.</p>`}`,
   });
 }
 
@@ -189,7 +189,7 @@ function cvPage(cv) {
     active: '/cv/',
     content: `
 <article class="prose-page">
-  <h1>${esc(cv.name)}${cv.nameEn ? ` <small>${esc(cv.nameEn)}</small>` : ''}</h1>
+  <h1>${esc(cv.name) || 'CV'}${cv.nameEn ? ` <small>${esc(cv.nameEn)}</small>` : ''}</h1>
   ${cv.email ? `<p class="meta">${esc(cv.email)}</p>` : ''}
   <div class="prose">${md(cv.body)}</div>
 </article>`,
