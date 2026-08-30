@@ -101,14 +101,15 @@ function loadArtworks() {
   const rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' });
 
   const byCode = new Map();
-  for (const row of rows) {
+  rows.forEach((row, rowIndex) => {
     const code = normalizeCode(pick(row, ['참조 코드', '번호', '참조코드'], ''));
     if (!code) {
       warn(`작품 표에 참조 코드가 없는 행이 있습니다: ${JSON.stringify(row)}`);
-      continue;
+      return;
     }
     byCode.set(code, {
       code,
+      rowIndex,
       title: pick(row, ['제목(국문)', '제목'], `작품 ${code}`),
       titleEn: pick(row, ['제목(영문)'], ''),
       year: pick(row, ['제작연도', '제작년도'], ''),
@@ -117,7 +118,7 @@ function loadArtworks() {
       size: pick(row, ['사이즈', '크기'], ''),
       images: [],
     });
-  }
+  });
 
   // 폴더명(참조 코드, 001/002... 또는 1-01/1-02... 둘 다 됨)과 표의 참조 코드를 매칭
   for (const folderName of listDirs(dir)) {
@@ -134,6 +135,7 @@ function loadArtworks() {
       warn(`작품/${folderName} 폴더는 있는데 표에는 ${code}번 행이 없습니다.`);
       byCode.set(code, {
         code,
+        rowIndex: -1,
         title: `(표에 정보 없음: ${code}번)`,
         titleEn: '',
         year: '',

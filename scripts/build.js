@@ -55,7 +55,8 @@ async function build() {
 
   const imageTasks = [];
 
-  const artworks = [...artworkByCode.values()].sort((a, b) => (parseInt(b.year, 10) || 0) - (parseInt(a.year, 10) || 0));
+  // 엑셀에서 가장 아래에 있는 행(= 최근에 추가한 작품)이 Works 페이지 맨 앞에 오도록.
+  const artworks = [...artworkByCode.values()].sort((a, b) => b.rowIndex - a.rowIndex);
   writePage('/works/', T.worksPage(artworks));
   for (const art of artworks) {
     art.images.forEach((img, i) => {
