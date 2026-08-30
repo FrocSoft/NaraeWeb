@@ -9,5 +9,5 @@
 디자인: 조화라
 Artist: Narea Kum, Yeji Kim, Hansaem Kim, Hyewon Kim, Noh-wan Park, Byeongryeol Park, Sanggyun Lee
 Design: Hwara Jo
-출품작: 001, 002
+출품작: 1-01, 1-02, 1-03
 ---
