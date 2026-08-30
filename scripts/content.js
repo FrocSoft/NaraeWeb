@@ -156,6 +156,16 @@ function loadArtworks() {
   return byCode;
 }
 
+// 전시가 개인전인지 단체전인지: "구분:" 속성에 직접 쓴 값을 우선 쓰고,
+// 안 써놨으면 참여작가 인원 수로 짐작한다 (한 명/없음 -> 개인전, 두 명 이상 -> 단체전).
+function classifyExhibitionType(meta) {
+  const explicit = pick(meta, ['구분', '전시구분', '분류'], '');
+  if (explicit) return explicit.includes('개인') ? 'solo' : 'group';
+  const participants = pick(meta, ['참여작가', 'Artist', '작가'], '');
+  const count = participants.split(/[,，、]+/).map((s) => s.trim()).filter(Boolean).length;
+  return count >= 2 ? 'group' : 'solo';
+}
+
 // ---------- 전시 ----------
 //
 // 두 가지 작성 방식을 다 받아준다.
@@ -223,6 +233,7 @@ function loadExhibitions(artworkByCode) {
       '제목(국문)', '제목', '전시명', '이름', '제목(영문)',
       '기간(국문)', '기간', '기간(영문)', '시작일',
       '장소(국문)', '장소', '장소(영문)', '출품작',
+      '구분', '전시구분', '분류',
     ]);
     const hasHangul = (s) => /[가-힣]/.test(s);
     const creditsKo = [];
@@ -261,6 +272,7 @@ function loadExhibitions(artworkByCode) {
       placeKo: pick(meta, ['장소(국문)', '장소'], ''),
       placeEn: pick(meta, ['장소(영문)'], ''),
       sortYear: extractYear(start || periodKo || folderName),
+      type: classifyExhibitionType(meta),
       heroImages,
       artworks,
       creditsKo,

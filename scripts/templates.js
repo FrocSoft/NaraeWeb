@@ -26,6 +26,13 @@ function setNavExhibitions(exhibitions) {
 
 function layout({ title, active, content }) {
   const isActive = (href) => (href === '/' ? active === '/' : active === href || active.startsWith(href));
+  // 개인전을 위에, 단체전을 아래에 두고 그 사이에 빈 칸 하나를 둔다.
+  const exLink = (ex) => `<a href="/전시/${ex.slug}/" ${isActive(`/전시/${ex.slug}/`) ? 'aria-current="page"' : ''}>${esc(ex.title)}</a>`;
+  const soloNav = NAV_EXHIBITIONS.filter((ex) => ex.type === 'solo').map(exLink);
+  const groupNav = NAV_EXHIBITIONS.filter((ex) => ex.type !== 'solo').map(exLink);
+  const exhibitionsNav = [soloNav.join('\n      '), groupNav.join('\n      ')]
+    .filter(Boolean)
+    .join('\n      <div class="nav-gap"></div>\n      ');
   return `<!doctype html>
 <html lang="ko">
 <head>
@@ -46,7 +53,7 @@ function layout({ title, active, content }) {
     <a href="/" class="nav-home" ${isActive('/') ? 'aria-current="page"' : ''}>Home</a>
     <hr>
     <div class="nav-exhibitions">
-      ${NAV_EXHIBITIONS.map((ex) => `<a href="/전시/${ex.slug}/" ${isActive(`/전시/${ex.slug}/`) ? 'aria-current="page"' : ''}>${esc(ex.title)}</a>`).join('\n      ')}
+      ${exhibitionsNav}
     </div>
     <hr>
     <a href="/works/" ${isActive('/works/') ? 'aria-current="page"' : ''}>Works</a>
