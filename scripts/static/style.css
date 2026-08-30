@@ -164,9 +164,10 @@ h1 small { font-weight: 400; color: var(--muted); font-size: 1rem; }
 .list.list-plain .li-meta { display: block; margin-left: 0; margin-top: 0.2rem; }
 .thumb { width: 64px; height: 64px; object-fit: cover; background: var(--line); flex: none; }
 
-.hero-gallery { display: grid; gap: 0.5rem; margin: 1.5rem 0 0.5rem; }
+.hero-gallery { display: grid; gap: 2rem; margin: 1.5rem 0; }
+.hero-figure { margin: 0; }
 .hero-img { width: 100%; display: block; cursor: zoom-in; }
-.hero-caption { margin: 0 0 1.5rem; font-size: 0.8em; color: var(--muted); text-align: left; }
+.hero-caption { margin: 0.5rem 0 0; font-size: 0.8em; color: var(--muted); text-align: left; }
 
 .artwork-grid {
   display: grid;

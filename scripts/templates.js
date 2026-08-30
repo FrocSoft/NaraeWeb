@@ -128,10 +128,26 @@ function creditList(credits) {
   </ul>`;
 }
 
+// 크레딧 목록(국문/영문 둘 다)에서 사진 크레딧을 찾는다. 라벨은 "사진"/"촬영"/"Photo" 어느 쪽이든 됨.
+function findPhotoCredit(ex) {
+  const isPhotoLabel = (label) => /^photo$/i.test(label.trim()) || ['사진', '촬영'].includes(label.trim());
+  const hit = [...ex.creditsEn, ...ex.creditsKo].find((c) => isPhotoLabel(c.label));
+  return hit ? hit.value : '';
+}
+
+// 전경 사진 한 장 아래 붙는 캡션: 국문 줄 / (있으면) 영문 줄 / (있으면) 사진 크레딧 줄.
+function heroCaptionHtml(ex, photoCredit) {
+  const lines = [`${esc(wrapBook(ex.title))}, 전시전경${ex.sortYear ? `, ${ex.sortYear}` : ''}`];
+  if (ex.titleEn) lines.push(`<em>${esc(ex.titleEn)}</em>, installation view${ex.sortYear ? `, ${ex.sortYear}` : ''}`);
+  if (photoCredit) lines.push(`Photo: ${esc(photoCredit)}`);
+  return lines.join('<br>');
+}
+
 function exhibitionDetailPage(ex) {
   const koLines = [ex.periodKo, ex.placeKo].filter(Boolean);
   const enLines = [ex.periodEn, ex.placeEn].filter(Boolean);
   const hasEnBlock = ex.titleEn || enLines.length || ex.creditsEn.length;
+  const photoCredit = findPhotoCredit(ex);
   return layout({
     title: wrapBook(ex.title),
     active: `/전시/${ex.slug}/`,
@@ -148,12 +164,11 @@ function exhibitionDetailPage(ex) {
     ${creditList(ex.creditsEn)}
   </div>` : ''}
   ${ex.heroImages.length ? `<div class="hero-gallery">
-    ${ex.heroImages.map((img, i) => `<img src="/${urlPath(img.rel)}" alt="" loading="lazy" class="hero-img" data-hero-index="${i}">`).join('\n    ')}
-  </div>
-  <p class="hero-caption">
-    ${esc(wrapBook(ex.title))}, 전시전경${ex.sortYear ? `, ${ex.sortYear}` : ''}
-    ${ex.titleEn ? `<br><em>${esc(ex.titleEn)}</em>, installation view${ex.sortYear ? `, ${ex.sortYear}` : ''}` : ''}
-  </p>` : ''}
+    ${ex.heroImages.map((img, i) => `<figure class="hero-figure">
+      <img src="/${urlPath(img.rel)}" alt="" loading="lazy" class="hero-img" data-hero-index="${i}">
+      <figcaption class="hero-caption">${heroCaptionHtml(ex, photoCredit)}</figcaption>
+    </figure>`).join('\n    ')}
+  </div>` : ''}
   <div class="prose">${md(ex.body)}</div>
   ${ex.artworks.length ? `<div class="artwork-grid">
     ${ex.artworks.map((a) => artworkFigure(a)).join('\n    ')}
