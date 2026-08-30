@@ -46,7 +46,7 @@ function layout({ title, active, content }) {
     <a href="/" class="nav-home" ${isActive('/') ? 'aria-current="page"' : ''}>Home</a>
     <hr>
     <div class="nav-exhibitions">
-      ${NAV_EXHIBITIONS.map((ex) => `<a href="/전시/${ex.slug}/" ${isActive(`/전시/${ex.slug}/`) ? 'aria-current="page"' : ''}>${esc(wrapBook(ex.title))}</a>`).join('\n      ')}
+      ${NAV_EXHIBITIONS.map((ex) => `<a href="/전시/${ex.slug}/" ${isActive(`/전시/${ex.slug}/`) ? 'aria-current="page"' : ''}>${esc(ex.title)}</a>`).join('\n      ')}
     </div>
     <hr>
     <a href="/works/" ${isActive('/works/') ? 'aria-current="page"' : ''}>Works</a>
