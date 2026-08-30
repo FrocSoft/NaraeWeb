@@ -22,6 +22,14 @@ function warn(msg) {
   console.warn('  ⚠ ' + msg);
 }
 
+// 작품 참조 코드를 문자열로 그대로 비교한다 ("1-01" 같은 그룹-일련번호 형식도 그대로 매칭되게).
+// 순수 숫자 코드만 예외로 앞자리 0을 정리해서, "001" 폴더와 표의 1이 같은 코드로 매칭되게 한다.
+function normalizeCode(v) {
+  const s = String(v == null ? '' : v).trim();
+  if (s === '') return '';
+  return /^\d+$/.test(s) ? String(parseInt(s, 10)) : s;
+}
+
 // ---------- 옵시디언 [[위키링크]] -> 사이트 내부 링크 ----------
 //
 // 옵시디언에서 쓰던 [[문서명]] / [[문서명|표시 텍스트]] 문법을 그대로 살려서,
@@ -94,8 +102,8 @@ function loadArtworks() {
 
   const byCode = new Map();
   for (const row of rows) {
-    const code = parseInt(pick(row, ['참조 코드', '번호', '참조코드'], ''), 10);
-    if (Number.isNaN(code)) {
+    const code = normalizeCode(pick(row, ['참조 코드', '번호', '참조코드'], ''));
+    if (!code) {
       warn(`작품 표에 참조 코드가 없는 행이 있습니다: ${JSON.stringify(row)}`);
       continue;
     }
@@ -111,11 +119,11 @@ function loadArtworks() {
     });
   }
 
-  // 폴더명(참조 코드 숫자, 001/002...)과 표의 참조 코드를 매칭
+  // 폴더명(참조 코드, 001/002... 또는 1-01/1-02... 둘 다 됨)과 표의 참조 코드를 매칭
   for (const folderName of listDirs(dir)) {
-    const code = parseInt(folderName, 10);
-    if (Number.isNaN(code)) {
-      warn(`작품/${folderName} 폴더 이름이 숫자가 아니라 건너뜁니다.`);
+    const code = normalizeCode(folderName);
+    if (!code) {
+      warn(`작품/${folderName} 폴더 이름에서 참조 코드를 알 수 없어 건너뜁니다.`);
       continue;
     }
     const images = findImagesRecursive(path.join(dir, folderName)).map((abs) => ({
@@ -175,8 +183,8 @@ function loadExhibitions(artworkByCode) {
     }
     const codes = String(artworkField || '')
       .split(/[,\s]+/)
-      .map((s) => parseInt(s, 10))
-      .filter((n) => !Number.isNaN(n));
+      .map((s) => normalizeCode(s))
+      .filter(Boolean);
 
     const artworks = [];
     for (const code of codes) {
