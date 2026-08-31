@@ -7,7 +7,5 @@
 장소(영문): everyArt
 참여작가: 금나래, 김주현, 송민지, 조휘경
 Artist: Narae Keum, Joohyun Kim, Minji Song, Wheekyoung Jo
-사진: 양이언
-Photo: Ian Yang
 출품작: 001, 002
 ---
