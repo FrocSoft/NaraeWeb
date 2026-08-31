@@ -172,7 +172,7 @@ function exhibitionDetailPage(ex) {
   </div>` : ''}
   ${ex.heroImages.length ? `<div class="hero-gallery">
     ${ex.heroImages.map((img, i) => `<figure class="hero-figure">
-      <img src="/${urlPath(img.rel)}" alt="" loading="lazy" class="hero-img" data-hero-index="${i}">
+      <img src="/${urlPath(img.rel)}" alt="" loading="lazy" class="hero-img" data-hero-index="${i}" data-caption="${esc(heroCaptionHtml(ex, photoCredit))}">
       <figcaption class="hero-caption">${heroCaptionHtml(ex, photoCredit)}</figcaption>
     </figure>`).join('\n    ')}
   </div>` : ''}

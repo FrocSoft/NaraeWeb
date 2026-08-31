@@ -22,6 +22,10 @@
   }
 
   function captionFor(img) {
+    // 전경 사진은 페이지에 이미 완성된 캡션(국문/영문/사진크레딧)이 있으니 그걸 그대로 씀.
+    if (img.dataset.caption) {
+      return '<div class="lb-line">' + img.dataset.caption + '</div>';
+    }
     var ko = tombstoneLine(img.dataset.title, img.dataset.year, img.dataset.material, img.dataset.size, false);
     var en = tombstoneLine(img.dataset.titleEn, img.dataset.year, img.dataset.materialEn, img.dataset.size, true);
     var html = '';
