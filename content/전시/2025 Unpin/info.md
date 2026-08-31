@@ -8,10 +8,10 @@
 참여작가(국문): 금나래, 진수영
 참여작가(영문): Narae Keum, Sooyoung Chin
 서문(국문): 손하늘
-서문(영문): Haneul Son
-포스터(국문): 이시아
-포스터(영문): Sia Lee
-후원(국문): 비케이씨앤씨
-후원(영문): STRAW
+Text: Haneul Son
+포스터: 이시아
+Poster: Sia Lee
+후원: 비케이씨앤씨
+Support: STRAW
 출품작: 001, 002
 ---
