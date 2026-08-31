@@ -170,13 +170,13 @@ function exhibitionDetailPage(ex) {
     ${enLines.length ? `<p class="meta">${enLines.map(esc).join('<br>')}</p>` : ''}
     ${creditList(ex.creditsEn)}
   </div>` : ''}
+  <div class="prose">${md(ex.body)}</div>
   ${ex.heroImages.length ? `<div class="hero-gallery">
     ${ex.heroImages.map((img, i) => `<figure class="hero-figure">
       <img src="/${urlPath(img.rel)}" alt="" loading="lazy" class="hero-img" data-hero-index="${i}" data-caption="${esc(heroCaptionHtml(ex, photoCredit))}">
       <figcaption class="hero-caption">${heroCaptionHtml(ex, photoCredit)}</figcaption>
     </figure>`).join('\n    ')}
   </div>` : ''}
-  <div class="prose">${md(ex.body)}</div>
   ${ex.artworks.length ? `<div class="artwork-grid">
     ${ex.artworks.map((a) => artworkFigure(a)).join('\n    ')}
   </div>` : ''}
