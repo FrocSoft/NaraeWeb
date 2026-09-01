@@ -9,7 +9,8 @@ function md(source) {
 }
 
 // 아내분은 그냥 제목만 입력하면 되고, 겹낫표/화살괄호는 화면에 낼 때 여기서만 붙인다.
-// 《 》 = 전시(책/앨범급 제목), 「 」 = 텍스트/블로그(글 한 편 제목). 둘 다 국문 관례.
+// 《 》 = 전시(책/앨범급 제목), 「 」 = 텍스트(글 한 편 제목). 둘 다 국문 관례.
+// 블로그는 작품/비평 제목이 아니라 그냥 일지에 가까워서 낫표를 안 붙인다.
 function wrapBook(t) { return t ? `《${t}》` : ''; }
 function wrapEssay(t) { return t ? `「${t}」` : ''; }
 
@@ -215,7 +216,7 @@ function blogListPage(posts) {
 <h1>Blog</h1>
 ${posts.length ? `<ul class="list list-plain">
   ${posts.map((p) => `<li><a href="/블로그/${p.slug}/">
-    <span class="li-title">${esc(wrapEssay(p.title))}</span>
+    <span class="li-title">${esc(p.title)}</span>
     <span class="li-meta">${esc(p.date)}</span>
   </a></li>`).join('\n  ')}
 </ul>` : `<p class="empty">아직 게시물이 없습니다.</p>`}`,
@@ -224,11 +225,11 @@ ${posts.length ? `<ul class="list list-plain">
 
 function blogDetailPage(p) {
   return layout({
-    title: wrapEssay(p.title),
+    title: p.title,
     active: '/블로그/',
     content: `
 <article class="prose-page">
-  <h1>${esc(wrapEssay(p.title))}</h1>
+  <h1>${esc(p.title)}</h1>
   ${p.date ? `<p class="meta">${esc(p.date)}</p>` : ''}
   <div class="prose">${md(p.body)}</div>
 </article>`,
