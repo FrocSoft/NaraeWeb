@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "블로그/블로그 테스트.md",
+                "file": "전시/2025 Unpin/info.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "블로그 테스트"
+              "title": "info"
             }
           }
         ]
@@ -99,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "블로그/블로그 테스트.md",
+                "file": "전시/2025 Unpin/info.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "블로그/블로그 테스트.md",
+                "file": "전시/2025 Unpin/info.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "블로그/블로그 테스트.md",
+                "file": "전시/2025 Unpin/info.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -191,24 +191,23 @@
   },
   "active": "ee3a44472ecc3974",
   "lastOpenFiles": [
+    "블로그/블로그 테스트.md",
+    "작품/5-04/잠영 submerge, 2023, acrylic on cotton cloth, 130.3×193.9cm_w.jpg",
+    "작품/5-04/잠영 submerge, 2023, acrylic on cotton cloth, 130.3×193.9cm_.jpg",
+    "작품/5-02/선과 선 사이 Between Lines (Mixed Blue), 2023, acrylic on cotton cloth, 91×116.8cm_w.jpg",
+    "작품/5-02/선과 선 사이 Between Lines (Mixed Blue), 2023, acrylic on cotton cloth, 91×116.8cm_.jpg",
+    "작품/5-03/선과 선 사이 Between Lines (Ochre), 2023, acrylic on cotton cloth, 72.7×90.9cm_w.jpg",
+    "작품/5-03/선과 선 사이 Between Lines (Ochre), 2023, acrylic on cotton cloth, 72.7×90.9cm_.jpg",
     "블로그/attachments/1d32194c5a34c5d09982c0f97ae5bde4_MD5.jpeg",
     "블로그/attachments/553892666a2d8e264bc84040ca5a0564_MD5.jpeg",
     "블로그/attachments/750aeb77cf36752a5bcac6ade1c4b849_MD5.jpeg",
     "블로그/attachments/c48e5226d7a89faffdd7ec34cdfbcd89_MD5.jpeg",
-    "블로그/attachments/8ee2ba6cb6c66fbefb59c9abfc5bf7dc_MD5.jpeg",
-    "블로그/attachments/dabb3eea39ffea262ea7a0fb6c075d9d_MD5.jpeg",
-    "블로그/attachments/113ecdb6bf0b8cd3a7e922392fe82ff0_MD5.jpeg",
-    "블로그/attachments/808d1daf5886b9096c18d16d5031d7f4_MD5.jpeg",
-    "블로그/attachments/KakaoTalk_Photo_2026-03-07-14-53-58 015.jpeg",
-    "블로그/attachments/e7fe90b229a3e30b9ad32dfe349ccb34_MD5.jpeg",
     "CV.md",
     "전시/2025 Unpin/info.md",
     "전시/2024 This Time That Time/info.md",
     "전시/2023 4 Needles/info.md",
     "전시/2021 Faraway, So Close/info.md",
     "전시/2019 Ivy Room/info.md",
-    "블로그/블로그 테스트.md",
-    "블로그/attachments/cfe1d6e625e9f44b969c7e52d16fdee3_MD5.jpg",
     "블로그/_양식/블로그.md",
     "블로그/attachments",
     "블로그/img",
