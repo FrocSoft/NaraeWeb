@@ -7,5 +7,5 @@
 장소(영문): everyArt
 참여작가: 금나래, 김주현, 송민지, 조휘경
 Artist: Narae Keum, Joohyun Kim, Minji Song, Wheekyoung Jo
-출품작: 001, 002
+출품작: 6-01, 6-02, 6-03
 ---
