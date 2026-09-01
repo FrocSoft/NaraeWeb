@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "전시/2025 Unpin/info.md",
+                "file": "블로그/블로그 테스트.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "info"
+              "title": "블로그 테스트"
             }
           }
         ]
@@ -99,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "전시/2025 Unpin/info.md",
+                "file": "블로그/블로그 테스트.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "전시/2025 Unpin/info.md",
+                "file": "블로그/블로그 테스트.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "전시/2025 Unpin/info.md",
+                "file": "블로그/블로그 테스트.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -185,11 +185,21 @@
       "daily-notes:오늘의 일일 노트 열기": false,
       "templates:템플릿 삽입": false,
       "command-palette:명령어 팔레트 열기": false,
-      "bases:새 베이스 생성하기": false
+      "bases:새 베이스 생성하기": false,
+      "obsidian-local-images-plus:Local Images Plus  0.16.4\r\nLocalize attachments (plugin folder)": false
     }
   },
   "active": "ee3a44472ecc3974",
   "lastOpenFiles": [
+    "블로그/attachments/cfe1d6e625e9f44b969c7e52d16fdee3_MD5.jpg",
+    "블로그/attachments/스크린샷 2023-05-26 오전 11.06.55.png",
+    "블로그/_양식/블로그.md",
+    "블로그/블로그 테스트.md",
+    "블로그/블로그 테스트.md",
+    "전시/2025 Unpin/info.md",
+    "블로그/attachments",
+    "블로그/img",
+    "블로그/무제 폴더",
     "작품/7-02/250501_8_w.jpg",
     "작품/7-02",
     "작품/7-01/250501_9_w.jpg",
@@ -210,19 +220,12 @@
     "작품/6-02/z.jpg",
     "작품/6-02/Flat Drive, 2023,  acrylic on canvas, 37.9×45.5cm_w.jpg",
     "작품/6-02",
-    "작품/6-01/z.jpg",
-    "작품/6-01/Between Lines, 2023, acrylic on canvas, 97×162.2cm_2_w.jpg",
     "작품/6-01",
-    "작품/5-08",
-    "작품/5-07",
-    "작품/5-06",
-    "전시/2025 Unpin/info.md",
     "CV.md",
     "전시/_양식/전시.md",
     "텍스트/물감의 시간은 어둠을 지나곤.md",
     "텍스트/CV.md",
     "텍스트/고정된 세계를 넘어서.md",
-    "블로그/_양식/블로그.md",
     "텍스트/_양식/텍스트.md",
     "전시/2021 Faraway, SO Close/info.md",
     "전시/Test Exhibition/info.md"
