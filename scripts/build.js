@@ -74,7 +74,10 @@ async function build() {
   for (const t of texts) writePage(`/텍스트/${t.slug}/`, T.textDetailPage(t));
 
   writePage('/블로그/', T.blogListPage(blogPosts));
-  for (const p of blogPosts) writePage(`/블로그/${p.slug}/`, T.blogDetailPage(p));
+  for (const p of blogPosts) {
+    writePage(`/블로그/${p.slug}/`, T.blogDetailPage(p));
+    for (const img of p.images) queueFull(img.rel, imageTasks);
+  }
 
   writePage('/cv/', T.cvPage(cv));
 

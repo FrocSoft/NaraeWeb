@@ -63,6 +63,7 @@
 
   bindGroup('.hero-img');
   bindGroup('.art-img');
+  bindGroup('.post-img');
 
   box.querySelector('.lb-close').addEventListener('click', close);
   box.querySelector('.lb-prev').addEventListener('click', function () { show(index - 1); });

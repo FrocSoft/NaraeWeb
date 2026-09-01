@@ -11,6 +11,7 @@ const {
   findImagesRecursive,
   parseMeta,
   esc,
+  urlPath,
   pick,
   extractYear,
   slugify,
@@ -35,7 +36,8 @@ function normalizeCode(v) {
 // 옵시디언에서 쓰던 [[문서명]] / [[문서명|표시 텍스트]] 문법을 그대로 살려서,
 // 사이트 안의 전시/텍스트/블로그/CV 페이지로 연결되는 일반 마크다운 링크로 바꿔준다.
 // 대상을 못 찾으면 링크 없이 텍스트만 남기고 경고를 띄운다 (빌드는 안 죽음).
-const WIKILINK_RE = /\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|([^\]]+))?\]\]/g;
+// 앞에 !가 붙은 ![[...]]는 이미지 임베드라 위키링크로 보지 않는다.
+const WIKILINK_RE = /(?<!!)\[\[([^\]|#]+)(?:#[^\]|]*)?(?:\|([^\]]+))?\]\]/g;
 
 function normalizeWikiKey(s) {
   return String(s).trim().replace(/\s+/g, ' ').toLowerCase();
@@ -84,6 +86,76 @@ function applyWikiLinks(text, resolver) {
     }
     return `<a class="wikilink" href="${href}">${esc(target.trim())}</a>`;
   });
+}
+
+// ---------- 본문 이미지 (![[이미지]] 임베드 + "캡션:" 줄) ----------
+//
+// 옵시디언에서 사진을 글에 끌어다 놓으면 ![[블로그/attachments/사진.jpg]] 같은 줄이 생긴다.
+// 그 바로 다음 줄에 "캡션: 내용" 이라고 쓰면 사진 아래 캡션으로 나간다 (안 쓰면 사진만).
+const IMAGE_EMBED_RE = /^[ \t]*!\[\[([^\]]+?)\]\][ \t]*$/;
+const IMAGE_CAPTION_RE = /^[ \t]*캡션[ \t]*[:：][ \t]*(.*)$/;
+const IMAGE_EXT_RE = /\.(jpe?g|png|gif|webp)$/i;
+
+// content/ 아래 모든 이미지를 경로와 파일명으로 찾을 수 있게 색인해둔다.
+// 옵시디언이 넣어주는 경로(블로그/attachments/사진.jpg)든 파일명만 쓰든 다 찾게.
+function buildImageIndex() {
+  const byPath = new Map();
+  const byName = new Map();
+  for (const abs of findImagesRecursive(CONTENT_DIR)) {
+    const rel = path.relative(CONTENT_DIR, abs).replace(/\\/g, '/');
+    byPath.set(rel, rel);
+    const base = path.basename(rel);
+    if (!byName.has(base)) byName.set(base, []);
+    byName.get(base).push(rel);
+  }
+  return { byPath, byName };
+}
+
+function resolveImage(target, index, where) {
+  const t = String(target).trim().replace(/^\.?\//, '');
+  if (index.byPath.has(t)) return t;
+  const hits = index.byName.get(path.basename(t)) || [];
+  if (hits.length === 1) return hits[0];
+  if (hits.length > 1) {
+    warn(`${where}: 이름이 같은 이미지가 여러 개라 첫 번째를 씁니다 — ${t} (${hits.join(', ')})`);
+    return hits[0];
+  }
+  warn(`${where}: 이미지를 찾을 수 없습니다 — ${t}`);
+  return '';
+}
+
+function imageFigureHtml(rel, caption) {
+  const cap = caption ? esc(caption) : '';
+  return `<figure class="post-figure">`
+    + `<img src="/${urlPath(rel)}" alt="${cap}" loading="lazy" class="post-img"${cap ? ` data-caption="${cap}"` : ''}>`
+    + (cap ? `<figcaption class="post-caption">${cap}</figcaption>` : '')
+    + `</figure>`;
+}
+
+// 쓰인 이미지는 collected에 모아서, 빌드가 압축·리사이즈해 내보낼 수 있게 한다.
+function applyImageEmbeds(text, index, collected, where) {
+  if (!text) return text;
+  const lines = text.split('\n');
+  const out = [];
+  for (let i = 0; i < lines.length; i++) {
+    const m = lines[i].match(IMAGE_EMBED_RE);
+    if (!m || !IMAGE_EXT_RE.test(m[1].trim())) {
+      out.push(lines[i]);
+      continue;
+    }
+    // 바로 다음 줄이 "캡션:" 이면 그 줄은 캡션으로 쓰고 본문에서는 뺀다.
+    let caption = '';
+    const cm = (lines[i + 1] || '').match(IMAGE_CAPTION_RE);
+    if (cm) {
+      caption = cm[1].trim();
+      i++;
+    }
+    const rel = resolveImage(m[1], index, where);
+    if (!rel) continue; // 못 찾으면 경고만 남기고 뺀다
+    collected.push({ rel });
+    out.push('', imageFigureHtml(rel, caption), '');
+  }
+  return out.join('\n');
 }
 
 // ---------- 작품 (엑셀 표 + 번호 폴더 이미지) ----------
@@ -331,6 +403,13 @@ function loadAll() {
   const texts = loadTexts();
   const blogPosts = loadBlogPosts();
   const cv = loadCV();
+
+  // 이미지 임베드를 먼저 처리한다 (위키링크 처리가 ![[...]]를 건드리기 전에).
+  const imageIndex = buildImageIndex();
+  for (const p of blogPosts) {
+    p.images = [];
+    p.body = applyImageEmbeds(p.body, imageIndex, p.images, `블로그/${p.slug}`);
+  }
 
   const wikiResolver = buildWikiLinkResolver({ exhibitions, texts, blogPosts, cv });
   for (const ex of exhibitions) ex.body = applyWikiLinks(ex.body, wikiResolver);

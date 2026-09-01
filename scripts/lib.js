@@ -111,6 +111,11 @@ function demoteHeadings(markdown) {
   return markdown.replace(/^(#{1,5})(\s)/gm, '#$1$2');
 }
 
+// 파일명에 공백이 섞여 있어도 주소로 안전하게 (한글은 그대로 둬서 주소가 읽히게).
+function urlPath(rel) {
+  return rel.split('/').map((seg) => seg.replace(/ /g, '%20')).join('/');
+}
+
 function esc(s) {
   return String(s || '').replace(/[&<>"']/g, (c) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
@@ -147,6 +152,7 @@ module.exports = {
   parseMeta,
   demoteHeadings,
   esc,
+  urlPath,
   pick,
   extractYear,
   slugify,

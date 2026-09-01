@@ -1,16 +1,11 @@
 const { marked } = require('marked');
-const { demoteHeadings, thumbRelPath, esc } = require('./lib');
+const { demoteHeadings, thumbRelPath, esc, urlPath } = require('./lib');
 
 // 빈 줄 없이 줄바꿈만 해도 그대로 줄바꿈되게. (마크다운 기본 규칙은 한 문단으로 붙여버림)
 marked.setOptions({ breaks: true });
 
 function md(source) {
   return source ? marked.parse(demoteHeadings(source)) : '';
-}
-
-// 파일명에 공백이 섞여 있어도 주소로 안전하게 (한글은 그대로 둬서 주소가 읽히게).
-function urlPath(rel) {
-  return rel.split('/').map((seg) => seg.replace(/ /g, '%20')).join('/');
 }
 
 // 아내분은 그냥 제목만 입력하면 되고, 겹낫표/화살괄호는 화면에 낼 때 여기서만 붙인다.
@@ -234,7 +229,7 @@ function blogDetailPage(p) {
     content: `
 <article class="prose-page">
   <h1>${esc(wrapEssay(p.title))}</h1>
-  <p class="meta">${esc(p.date)}</p>
+  ${p.date ? `<p class="meta">${esc(p.date)}</p>` : ''}
   <div class="prose">${md(p.body)}</div>
 </article>`,
   });
