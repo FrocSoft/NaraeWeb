@@ -88,13 +88,15 @@ function applyWikiLinks(text, resolver) {
   });
 }
 
-// ---------- 본문 이미지 (![[이미지]] 임베드 + "캡션:" 줄) ----------
+// ---------- 본문 이미지 (![[이미지]] 임베드 + 바로 아랫줄 캡션) ----------
 //
 // 옵시디언에서 사진을 글에 끌어다 놓으면 ![[블로그/attachments/사진.jpg]] 같은 줄이 생긴다.
-// 그 바로 다음 줄에 "캡션: 내용" 이라고 쓰면 사진 아래 캡션으로 나간다 (안 쓰면 사진만).
+// 사진 바로 아랫줄(빈 줄 없이)에 쓴 텍스트는 캡션으로 나간다.
+// 한 줄 띄우고 쓰면 그냥 본문 문단이 된다.
 const IMAGE_EMBED_RE = /^[ \t]*!\[\[([^\]]+?)\]\][ \t]*$/;
-const IMAGE_CAPTION_RE = /^[ \t]*캡션[ \t]*[:：][ \t]*(.*)$/;
 const IMAGE_EXT_RE = /\.(jpe?g|png|gif|webp)$/i;
+// 예전에 쓰던 "캡션:" 접두사를 붙여 써도 그대로 캡션으로 인식되게 (붙였으면 떼고 씀).
+const CAPTION_PREFIX_RE = /^캡션[ \t]*[:：][ \t]*/;
 
 // content/ 아래 모든 이미지를 경로와 파일명으로 찾을 수 있게 색인해둔다.
 // 옵시디언이 넣어주는 경로(블로그/attachments/사진.jpg)든 파일명만 쓰든 다 찾게.
@@ -143,11 +145,12 @@ function applyImageEmbeds(text, index, collected, where) {
       out.push(lines[i]);
       continue;
     }
-    // 바로 다음 줄이 "캡션:" 이면 그 줄은 캡션으로 쓰고 본문에서는 뺀다.
+    // 빈 줄 없이 바로 아랫줄에 글이 있으면 그게 캡션이다 (그 줄은 본문에서 뺀다).
+    // 한 줄 띄웠거나, 다음 사진/제목 줄이면 캡션이 아니라 그냥 본문.
     let caption = '';
-    const cm = (lines[i + 1] || '').match(IMAGE_CAPTION_RE);
-    if (cm) {
-      caption = cm[1].trim();
+    const next = (lines[i + 1] || '').trim();
+    if (next && !IMAGE_EMBED_RE.test(lines[i + 1]) && !next.startsWith('#')) {
+      caption = next.replace(CAPTION_PREFIX_RE, '').trim();
       i++;
     }
     const rel = resolveImage(m[1], index, where);
