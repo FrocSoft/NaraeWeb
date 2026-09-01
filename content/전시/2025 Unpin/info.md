@@ -13,5 +13,5 @@ Text: Haneul Son
 Poster: Sia Lee
 후원: 비케이씨앤씨
 Support: STRAW
-출품작: 3-04, 7-01, 7-02
+출품작: 3-05, 7-01, 7-02
 ---
