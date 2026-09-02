@@ -39,6 +39,10 @@
     var img = list[index];
     imgEl.src = img.dataset.full || img.src;
     imgEl.alt = img.alt || '';
+    // 작품 폴더의 첫 번째 사진은 작품 전체(대표) 사진, 그 뒤는 디테일 사진.
+    // 디테일 사진은 화면 너비를 꽉 채워서 크게 보여준다.
+    var isDetail = img.classList.contains('art-img') && Number(img.dataset.index || 0) > 0;
+    imgEl.classList.toggle('lb-wide', isDetail);
     capEl.innerHTML = captionFor(img);
   }
 
