@@ -195,18 +195,23 @@ h1 small { font-weight: 400; color: var(--muted); font-size: 1rem; }
 .prose .wikilink:hover { color: var(--muted); }
 
 .lightbox {
-  position: fixed; inset: 0; background: rgba(10,10,10,0.94);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  gap: 1rem; padding: 2rem; z-index: 100;
+  position: fixed; inset: 0; background: rgba(253, 253, 252, 0.98);
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center;
+  justify-content: safe center; /* 사진이 화면보다 길 때 위쪽이 잘려서 못 보게 되는 것 방지 */
+  gap: 1rem; padding: 2rem; z-index: 100; overflow-y: auto;
 }
 .lightbox[hidden] { display: none; }
 .lb-img { max-width: 90vw; max-height: 78vh; object-fit: contain; }
-.lb-caption { color: #eee; font-size: 0.9rem; text-align: center; }
+/* 디테일 사진은 좌우 여백 없이 화면 너비를 꽉 채운다 (음수 마진으로 .lightbox 패딩까지 상쇄).
+   세로로 길어지면 라이트박스 안에서 스크롤된다. */
+.lb-img.lb-wide { max-width: none; max-height: none; width: 100vw; height: auto; margin: 0 -2rem; }
+.lb-caption { color: var(--muted); font-size: 0.9rem; text-align: center; }
 .lb-line { margin-top: 0.2rem; }
-.lb-line-en { color: #bbb; }
+.lb-line-en { color: #999; }
 .lb-line em { font-style: italic; }
 .lb-close, .lb-prev, .lb-next {
-  position: fixed; background: none; border: none; color: #fff;
+  position: fixed; background: none; border: none; color: var(--ink);
   font-size: 1.6rem; cursor: pointer; padding: 0.5rem 1rem;
 }
 .lb-close { top: 1rem; right: 1rem; }

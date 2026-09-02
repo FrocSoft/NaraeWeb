@@ -309,6 +309,8 @@ function loadExhibitions(artworkByCode) {
       '기간(국문)', '기간', '기간(영문)', '시작일',
       '장소(국문)', '장소', '장소(영문)', '출품작',
       '구분', '전시구분', '분류',
+      // 전경 캡션에만 들어가는 사진 크레딧. 공식 크레딧 목록에는 안 나오게 여기서 뺀다.
+      '전경사진', '전경 사진', '전경촬영', '전경 촬영',
     ]);
     const hasHangul = (s) => /[가-힣]/.test(s);
     const creditsKo = [];
@@ -348,6 +350,8 @@ function loadExhibitions(artworkByCode) {
       placeEn: pick(meta, ['장소(영문)'], ''),
       sortYear: extractYear(start || periodKo || folderName),
       type: classifyExhibitionType(meta),
+      // 전경 캡션 전용 사진 크레딧 (안 쓰면 공식 크레딧의 사진/Photo를 대신 씀).
+      heroPhotoCredit: pick(meta, ['전경사진', '전경 사진', '전경촬영', '전경 촬영'], ''),
       heroImages,
       artworks,
       creditsKo,

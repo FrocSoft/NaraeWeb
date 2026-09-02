@@ -131,8 +131,11 @@ function creditList(credits) {
   </ul>`;
 }
 
-// 크레딧 목록(국문/영문 둘 다)에서 사진 크레딧을 찾는다. 라벨은 "사진"/"촬영"/"Photo" 어느 쪽이든 됨.
+// 전경 캡션에 쓸 사진 크레딧.
+// "전경사진" 속성을 써놨으면 그걸 쓰고 (공식 크레딧 목록에는 안 나감),
+// 없으면 공식 크레딧에서 사진 크레딧을 찾아 쓴다. 라벨은 "사진"/"촬영"/"Photo" 어느 쪽이든 됨.
 function findPhotoCredit(ex) {
+  if (ex.heroPhotoCredit) return ex.heroPhotoCredit;
   const isPhotoLabel = (label) => /^photo$/i.test(label.trim()) || ['사진', '촬영'].includes(label.trim());
   const hit = [...ex.creditsEn, ...ex.creditsKo].find((c) => isPhotoLabel(c.label));
   return hit ? hit.value : '';
