@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "전시/2025 Unpin/info.md",
+                "file": "CV.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "info"
+              "title": "CV"
             }
           }
         ]
@@ -99,7 +99,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "전시/2025 Unpin/info.md",
+                "file": "CV.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +118,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "전시/2025 Unpin/info.md",
+                "file": "CV.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +161,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "전시/2025 Unpin/info.md",
+                "file": "CV.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -191,9 +191,11 @@
   },
   "active": "ee3a44472ecc3974",
   "lastOpenFiles": [
+    "전시/2025 Unpin/info.md",
+    "전시/2025 Unpin/전경/250501_5_w.jpg",
+    "전시/2025 Unpin/전경/250501_4_w.jpg",
     "전시/_양식/전시.md",
     "블로그/Studio.md",
-    "전시/2025 Unpin/info.md",
     "작품/6-03/Flat Drive, 2023,  acrylic on canvas, 45.5×37.9cm_w.jpg",
     "작품/6-03/Flat Drive, 2023,  acrylic on canvas, 45.5×37.9cm_.jpg",
     "작품/6-01/Between Lines, 2023, acrylic on canvas, 97×162.2cm_2_w.jpg",
@@ -202,8 +204,6 @@
     "작품/5-08/평평한 주행 Flat Drive, 2023, acrylic on cotton cloth, 112.1×145.5cm_.jpg",
     "작품/5-07/평평한 주행 Flat Drive 2023, acrylic on cotton cloth, 72.7×72.7cm_w.jpg",
     "작품/5-07/평평한 주행 Flat Drive 2023, acrylic on cotton cloth, 72.7×72.7cm_.jpg",
-    "작품/5-06/평평한 주행 (좁은 문) Flat Drive (Narrow Door), 2023, acrylic on cotton cloth, 193.9×130.3cm_w.jpg",
-    "작품/5-06/평평한 주행 (좁은 문) Flat Drive (Narrow Door), 2023, acrylic on cotton cloth, 193.9×130.3cm_.jpg",
     "CV.md",
     "전시/2024 This Time That Time/info.md",
     "전시/2023 4 Needles/info.md",
