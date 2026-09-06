@@ -11,14 +11,12 @@
             "id": "ee3a44472ecc3974",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "image",
               "state": {
-                "file": "전시/_양식/전시.md",
-                "mode": "source",
-                "source": false
+                "file": "작품/1-02/IMG_8944.JPG"
               },
-              "icon": "lucide-file",
-              "title": "전시"
+              "icon": "lucide-image",
+              "title": "IMG_8944"
             }
           }
         ]
@@ -99,7 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "전시/_양식/전시.md",
+                "file": "작품/1-02/IMG_8944.JPG",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -118,7 +116,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "전시/_양식/전시.md",
+                "file": "작품/1-02/IMG_8944.JPG",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -161,7 +159,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "전시/_양식/전시.md",
+                "file": "작품/1-02/IMG_8944.JPG",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
@@ -191,16 +189,17 @@
   },
   "active": "ee3a44472ecc3974",
   "lastOpenFiles": [
+    "작품/1-01/IMG_8955.png",
+    "블로그/Studio.md",
+    "CV.md",
+    "전시/2025 Unpin/info.md",
     "전시/2019 Ivy Room/info.md",
+    "전시/_양식/전시.md",
     "전시/2021 Faraway, So Close/info.md",
     "전시/2023 4 Needles/info.md",
     "전시/2024 This Time That Time/info.md",
-    "전시/2025 Unpin/info.md",
-    "CV.md",
     "전시/2025 Unpin/전경/250501_5_w.jpg",
     "전시/2025 Unpin/전경/250501_4_w.jpg",
-    "전시/_양식/전시.md",
-    "블로그/Studio.md",
     "작품/6-03/Flat Drive, 2023,  acrylic on canvas, 45.5×37.9cm_w.jpg",
     "작품/6-03/Flat Drive, 2023,  acrylic on canvas, 45.5×37.9cm_.jpg",
     "작품/6-01/Between Lines, 2023, acrylic on canvas, 97×162.2cm_2_w.jpg",
