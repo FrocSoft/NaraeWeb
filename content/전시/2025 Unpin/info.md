@@ -4,7 +4,7 @@
 기간(국문): 2025.04.29 - 05.10
 기간(영문): Apr 29, 2025 - May 10
 장소(국문): 레이프로젝트 서울
-장소(영문): Rayproject Seoul
+장소(영문): Rayprojects Seoul
 참여작가: 금나래, 진수영
 Artist: Narae Keum, Sooyoung Chin
 서문: 손하늘
@@ -14,4 +14,5 @@ Poster: Sia Lee
 후원: 비케이씨앤씨
 Support: STRAW
 출품작: 3-05, 7-01, 7-02
+전경사진: Ian Yang
 ---
