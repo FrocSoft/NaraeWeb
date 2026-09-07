@@ -94,20 +94,12 @@ function artworkFigure(art) {
 </figure>`;
 }
 
-function homePage({ texts, blogPosts }) {
+// 홈은 블로그 사진 한 장만 띄운다 (제목·메뉴 카드 같은 다른 정보 없이).
+function homePage({ photo }) {
   return layout({
     title: '홈',
     active: '/',
-    content: `
-<section class="hero">
-  <h1>나래</h1>
-</section>
-<section class="index-grid">
-  <a class="index-card" href="/works/"><h2>Works</h2></a>
-  <a class="index-card" href="/텍스트/"><h2>Text</h2><p>${texts.length}개</p></a>
-  <a class="index-card" href="/블로그/"><h2>Blog</h2><p>${blogPosts.length}개</p></a>
-  <a class="index-card" href="/cv/"><h2>CV</h2></a>
-</section>`,
+    content: photo ? `<img src="/${urlPath(photo)}" alt="" class="home-photo">` : '',
   });
 }
 

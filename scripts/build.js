@@ -51,9 +51,12 @@ async function build() {
   const { artworkByCode, exhibitions, texts, blogPosts, cv } = loadAll();
   T.setNavExhibitions(exhibitions);
 
-  writePage('/', T.homePage({ texts, blogPosts }));
-
   const imageTasks = [];
+
+  // 홈에는 블로그 사진 중 아무거나 한 장 (빌드할 때마다 골라서 가끔 바뀜).
+  const blogImages = [...new Set(blogPosts.flatMap((p) => p.images.map((img) => img.rel)))];
+  const homePhoto = blogImages.length ? blogImages[Math.floor(Math.random() * blogImages.length)] : '';
+  writePage('/', T.homePage({ photo: homePhoto }));
 
   // 엑셀에서 가장 아래에 있는 행(= 최근에 추가한 작품)이 Works 페이지 맨 앞에 오도록.
   const artworks = [...artworkByCode.values()].sort((a, b) => b.rowIndex - a.rowIndex);
@@ -74,10 +77,9 @@ async function build() {
   for (const t of texts) writePage(`/텍스트/${t.slug}/`, T.textDetailPage(t));
 
   writePage('/블로그/', T.blogListPage(blogPosts));
-  for (const p of blogPosts) {
-    writePage(`/블로그/${p.slug}/`, T.blogDetailPage(p));
-    for (const img of p.images) queueFull(img.rel, imageTasks);
-  }
+  for (const p of blogPosts) writePage(`/블로그/${p.slug}/`, T.blogDetailPage(p));
+  // 같은 사진을 두 번 처리하면 같은 파일에 동시에 쓰게 되니 중복은 걸러서 한 번만.
+  for (const rel of blogImages) queueFull(rel, imageTasks);
 
   writePage('/cv/', T.cvPage(cv));
 
