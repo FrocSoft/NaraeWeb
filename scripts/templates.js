@@ -20,6 +20,15 @@ function setNavExhibitions(exhibitions) {
   NAV_EXHIBITIONS = exhibitions;
 }
 
+// style.css 같은 파일 주소 뒤에 붙일 버전값 (브라우저가 예전 파일을 계속 쓰지 않게).
+let STATIC_VERSIONS = {};
+function setStaticVersions(versions) {
+  STATIC_VERSIONS = versions;
+}
+function assetUrl(name) {
+  return STATIC_VERSIONS[name] ? `/${name}?v=${STATIC_VERSIONS[name]}` : `/${name}`;
+}
+
 function layout({ title, active, content }) {
   const isActive = (href) => (href === '/' ? active === '/' : active === href || active.startsWith(href));
   // 개인전을 위에, 단체전을 아래에 두고 그 사이에 빈 칸 하나를 둔다.
@@ -35,7 +44,7 @@ function layout({ title, active, content }) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)} — 나래</title>
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="${assetUrl('style.css')}">
 </head>
 <body>
 <header class="mobile-topbar" id="mobile-topbar">
@@ -68,8 +77,8 @@ ${content}
   <div class="lb-caption"></div>
   <button class="lb-next" aria-label="다음">›</button>
 </div>
-<script src="/nav.js"></script>
-<script src="/lightbox.js"></script>
+<script src="${assetUrl('nav.js')}"></script>
+<script src="${assetUrl('lightbox.js')}"></script>
 </body>
 </html>`;
 }
@@ -258,6 +267,7 @@ function cvPage(cv) {
 
 module.exports = {
   setNavExhibitions,
+  setStaticVersions,
   homePage,
   worksPage,
   exhibitionDetailPage,
