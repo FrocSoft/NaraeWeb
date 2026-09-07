@@ -53,10 +53,9 @@ async function build() {
 
   const imageTasks = [];
 
-  // 홈에는 블로그 사진 중 아무거나 한 장 (빌드할 때마다 골라서 가끔 바뀜).
+  // 홈에는 블로그 사진 중 아무거나 한 장 (어느 걸 띄울지는 새로고침할 때마다 브라우저가 고름).
   const blogImages = [...new Set(blogPosts.flatMap((p) => p.images.map((img) => img.rel)))];
-  const homePhoto = blogImages.length ? blogImages[Math.floor(Math.random() * blogImages.length)] : '';
-  writePage('/', T.homePage({ photo: homePhoto }));
+  writePage('/', T.homePage({ photos: blogImages }));
 
   // 엑셀에서 가장 아래에 있는 행(= 최근에 추가한 작품)이 Works 페이지 맨 앞에 오도록.
   const artworks = [...artworkByCode.values()].sort((a, b) => b.rowIndex - a.rowIndex);

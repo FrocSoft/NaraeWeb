@@ -95,11 +95,22 @@ function artworkFigure(art) {
 }
 
 // 홈은 블로그 사진 한 장만 띄운다 (제목·메뉴 카드 같은 다른 정보 없이).
-function homePage({ photo }) {
+// 사진 목록을 통째로 넣어두고 새로고침할 때마다 브라우저에서 하나를 골라 띄운다.
+function homePage({ photos }) {
+  if (!photos.length) return layout({ title: '홈', active: '/', content: '' });
+  const list = photos.map((rel) => `/${urlPath(rel)}`);
   return layout({
     title: '홈',
     active: '/',
-    content: photo ? `<img src="/${urlPath(photo)}" alt="" class="home-photo">` : '',
+    content: `<img class="home-photo" id="home-photo" alt="" data-photos="${esc(JSON.stringify(list))}">
+<script>
+(function () {
+  var el = document.getElementById('home-photo');
+  var list = JSON.parse(el.dataset.photos);
+  el.src = list[Math.floor(Math.random() * list.length)];
+})();
+</script>
+<noscript><img class="home-photo" src="${list[0]}" alt=""></noscript>`,
   });
 }
 
