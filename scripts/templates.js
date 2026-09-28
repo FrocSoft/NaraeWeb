@@ -20,6 +20,15 @@ function setNavExhibitions(exhibitions) {
   NAV_EXHIBITIONS = exhibitions;
 }
 
+// style.css 같은 파일 주소 뒤에 붙일 버전값 (브라우저가 예전 파일을 계속 쓰지 않게).
+let STATIC_VERSIONS = {};
+function setStaticVersions(versions) {
+  STATIC_VERSIONS = versions;
+}
+function assetUrl(name) {
+  return STATIC_VERSIONS[name] ? `/${name}?v=${STATIC_VERSIONS[name]}` : `/${name}`;
+}
+
 function layout({ title, active, content }) {
   const isActive = (href) => (href === '/' ? active === '/' : active === href || active.startsWith(href));
   // 개인전을 위에, 단체전을 아래에 두고 그 사이에 빈 칸 하나를 둔다.
@@ -35,7 +44,7 @@ function layout({ title, active, content }) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)} — 나래</title>
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="${assetUrl('style.css')}">
 </head>
 <body>
 <header class="mobile-topbar" id="mobile-topbar">
@@ -68,8 +77,8 @@ ${content}
   <div class="lb-caption"></div>
   <button class="lb-next" aria-label="다음">›</button>
 </div>
-<script src="/nav.js"></script>
-<script src="/lightbox.js"></script>
+<script src="${assetUrl('nav.js')}"></script>
+<script src="${assetUrl('lightbox.js')}"></script>
 </body>
 </html>`;
 }
@@ -94,20 +103,23 @@ function artworkFigure(art) {
 </figure>`;
 }
 
-function homePage({ texts, blogPosts }) {
+// 홈은 블로그 사진 한 장만 띄운다 (제목·메뉴 카드 같은 다른 정보 없이).
+// 사진 목록을 통째로 넣어두고 새로고침할 때마다 브라우저에서 하나를 골라 띄운다.
+function homePage({ photos }) {
+  if (!photos.length) return layout({ title: '홈', active: '/', content: '' });
+  const list = photos.map((rel) => `/${urlPath(rel)}`);
   return layout({
     title: '홈',
     active: '/',
-    content: `
-<section class="hero">
-  <h1>나래</h1>
-</section>
-<section class="index-grid">
-  <a class="index-card" href="/works/"><h2>Works</h2></a>
-  <a class="index-card" href="/텍스트/"><h2>Text</h2><p>${texts.length}개</p></a>
-  <a class="index-card" href="/블로그/"><h2>Blog</h2><p>${blogPosts.length}개</p></a>
-  <a class="index-card" href="/cv/"><h2>CV</h2></a>
-</section>`,
+    content: `<img class="home-photo" id="home-photo" alt="" data-photos="${esc(JSON.stringify(list))}">
+<script>
+(function () {
+  var el = document.getElementById('home-photo');
+  var list = JSON.parse(el.dataset.photos);
+  el.src = list[Math.floor(Math.random() * list.length)];
+})();
+</script>
+<noscript><img class="home-photo" src="${list[0]}" alt=""></noscript>`,
   });
 }
 
@@ -255,6 +267,7 @@ function cvPage(cv) {
 
 module.exports = {
   setNavExhibitions,
+  setStaticVersions,
   homePage,
   worksPage,
   exhibitionDetailPage,

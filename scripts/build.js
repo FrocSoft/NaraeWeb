@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { loadAll } = require('./content');
 const { thumbRelPath } = require('./lib');
 const { fullImage, thumbImage } = require('./images');
@@ -23,10 +24,17 @@ function writePage(routePath, html) {
   fs.writeFileSync(path.join(outDir, 'index.html'), html, 'utf8');
 }
 
+// style.css / nav.js 같은 파일은 주소가 늘 같아서, 내용을 고쳐도 브라우저가 예전 걸
+// 계속 쓰는 일이 생긴다. 파일 내용으로 만든 짧은 버전값을 주소 뒤에 붙여서
+// (예: /style.css?v=a1b2c3) 고칠 때마다 새로 받아가게 한다.
 function copyStatic() {
+  const versions = {};
   for (const name of fs.readdirSync(STATIC)) {
-    fs.copyFileSync(path.join(STATIC, name), path.join(DIST, name));
+    const data = fs.readFileSync(path.join(STATIC, name));
+    fs.writeFileSync(path.join(DIST, name), data);
+    versions[name] = crypto.createHash('md5').update(data).digest('hex').slice(0, 8);
   }
+  return versions;
 }
 
 // 원본을 그대로 복사하는 대신, 웹에 맞게 줄이고 압축한 버전을 내보냄.
@@ -46,14 +54,16 @@ async function build() {
   console.log('빌드 시작…');
   rmrf(DIST);
   ensureDir(DIST);
-  copyStatic();
+  T.setStaticVersions(copyStatic());
 
   const { artworkByCode, exhibitions, texts, blogPosts, cv } = loadAll();
   T.setNavExhibitions(exhibitions);
 
-  writePage('/', T.homePage({ texts, blogPosts }));
-
   const imageTasks = [];
+
+  // 홈에는 블로그 사진 중 아무거나 한 장 (어느 걸 띄울지는 새로고침할 때마다 브라우저가 고름).
+  const blogImages = [...new Set(blogPosts.flatMap((p) => p.images.map((img) => img.rel)))];
+  writePage('/', T.homePage({ photos: blogImages }));
 
   // 엑셀에서 가장 아래에 있는 행(= 최근에 추가한 작품)이 Works 페이지 맨 앞에 오도록.
   const artworks = [...artworkByCode.values()].sort((a, b) => b.rowIndex - a.rowIndex);
@@ -74,10 +84,9 @@ async function build() {
   for (const t of texts) writePage(`/텍스트/${t.slug}/`, T.textDetailPage(t));
 
   writePage('/블로그/', T.blogListPage(blogPosts));
-  for (const p of blogPosts) {
-    writePage(`/블로그/${p.slug}/`, T.blogDetailPage(p));
-    for (const img of p.images) queueFull(img.rel, imageTasks);
-  }
+  for (const p of blogPosts) writePage(`/블로그/${p.slug}/`, T.blogDetailPage(p));
+  // 같은 사진을 두 번 처리하면 같은 파일에 동시에 쓰게 되니 중복은 걸러서 한 번만.
+  for (const rel of blogImages) queueFull(rel, imageTasks);
 
   writePage('/cv/', T.cvPage(cv));
 
