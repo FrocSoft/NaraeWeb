@@ -4,19 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "2a0eb33c9e448509",
+        "id": "576110343dd28e42",
         "type": "tabs",
         "children": [
           {
-            "id": "ee3a44472ecc3974",
+            "id": "6e8edeae3fc47876",
             "type": "leaf",
             "state": {
-              "type": "image",
-              "state": {
-                "file": "작품/1-02/IMG_8944.JPG"
-              },
-              "icon": "lucide-image",
-              "title": "IMG_8944"
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "새 탭"
             }
           }
         ]
@@ -187,8 +185,9 @@
       "obsidian-local-images-plus:Local Images Plus  0.16.4\r\nLocalize attachments (plugin folder)": false
     }
   },
-  "active": "ee3a44472ecc3974",
+  "active": "6e8edeae3fc47876",
   "lastOpenFiles": [
+    "작품/1-02/IMG_8944.JPG",
     "작품/1-01/IMG_8955.png",
     "블로그/Studio.md",
     "CV.md",
@@ -207,7 +206,6 @@
     "작품/5-08/평평한 주행 Flat Drive, 2023, acrylic on cotton cloth, 112.1×145.5cm_w.jpg",
     "작품/5-08/평평한 주행 Flat Drive, 2023, acrylic on cotton cloth, 112.1×145.5cm_.jpg",
     "작품/5-07/평평한 주행 Flat Drive 2023, acrylic on cotton cloth, 72.7×72.7cm_w.jpg",
-    "작품/5-07/평평한 주행 Flat Drive 2023, acrylic on cotton cloth, 72.7×72.7cm_.jpg",
     "블로그/_양식/블로그.md",
     "블로그/attachments",
     "블로그/img",
