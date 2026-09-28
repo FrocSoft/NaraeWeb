@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "576110343dd28e42",
+        "id": "61510fa7ca8ecfaa",
         "type": "tabs",
         "children": [
           {
-            "id": "6e8edeae3fc47876",
+            "id": "1cbd33a576428106",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "전시/2021 Faraway, So Close/info.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "새 탭"
+              "title": "info"
             }
           }
         ]
@@ -185,12 +189,13 @@
       "obsidian-local-images-plus:Local Images Plus  0.16.4\r\nLocalize attachments (plugin folder)": false
     }
   },
-  "active": "6e8edeae3fc47876",
+  "active": "1cbd33a576428106",
   "lastOpenFiles": [
+    "CV.md",
+    "attachments",
     "작품/1-02/IMG_8944.JPG",
     "작품/1-01/IMG_8955.png",
     "블로그/Studio.md",
-    "CV.md",
     "전시/2025 Unpin/info.md",
     "전시/2019 Ivy Room/info.md",
     "전시/_양식/전시.md",
@@ -205,7 +210,6 @@
     "작품/6-01/Between Lines, 2023, acrylic on canvas, 97×162.2cm_2.jpg",
     "작품/5-08/평평한 주행 Flat Drive, 2023, acrylic on cotton cloth, 112.1×145.5cm_w.jpg",
     "작품/5-08/평평한 주행 Flat Drive, 2023, acrylic on cotton cloth, 112.1×145.5cm_.jpg",
-    "작품/5-07/평평한 주행 Flat Drive 2023, acrylic on cotton cloth, 72.7×72.7cm_w.jpg",
     "블로그/_양식/블로그.md",
     "블로그/attachments",
     "블로그/img",
@@ -217,7 +221,6 @@
     "작품/작품리스트.md",
     "작품/6-03",
     "작품/6-02",
-    "작품/6-01",
     "텍스트/물감의 시간은 어둠을 지나곤.md",
     "텍스트/CV.md",
     "텍스트/고정된 세계를 넘어서.md",
